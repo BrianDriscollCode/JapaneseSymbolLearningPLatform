@@ -13,7 +13,7 @@
                 />
             </div>  
 
-            <RouterLink to="/" class="navLinkContainer">
+            <RouterLink to="/learn" class="navLinkContainer">
                 <img src="/book.png" class="navLink" width="25" height="25"/> 
                 <span class="navLink" v-if="navState.startOpen">Learn</span> 
             </RouterLink>
@@ -26,6 +26,11 @@
             <RouterLink to="/login" class="navLinkContainer">
                 <img src="/key.png" class="navLink" width="25" height="25" />
                 <span class="navLink"v-if="navState.startOpen">Login</span>
+            </RouterLink>
+
+            <RouterLink to="/accountViewManager" class="navLinkContainer">
+                <img src="/key.png" class="navLink" width="25" height="25" />
+                <span class="navLink"v-if="navState.startOpen">Account Manager</span>
             </RouterLink>
         </div>
     </nav>
@@ -64,7 +69,6 @@ const toggleAnimation = () => {
 };
 
 const onAnimationComplete = () => {
-    console.log("Animation complete");
     navState.open = !navState.open; // Flip state only after animation finishes
 };
 </script>
@@ -73,15 +77,15 @@ const onAnimationComplete = () => {
 <style scoped>
 #navOpen
 {
-    background-color: #f2faef;
-    width: 170px;
+    background-color: #a7dadc;
+    width: 180px;
     height: 100vh;
     transition: width 0.3s;
 }
 
 #navClosed
 {
-    background-color: #f2faef;
+    background-color: #a7dadc;
     width: 75px;
     height: 100vh;
     transition: width 0.3s;
@@ -122,7 +126,7 @@ const onAnimationComplete = () => {
 
 .navLinkContainer:hover
 {
-    background-color: #a7dadc;
+    background-color: #55caa7;
 }
 
 .navLink
