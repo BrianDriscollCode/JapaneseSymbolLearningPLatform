@@ -1,5 +1,9 @@
 <template>
+    <div id="overlay" v-if="state.isCreatingAccount"> 
+        <AnimatedLoader />
+    </div>
     <section class="formContainer">
+        
         <!-- <img id="xPNG" :src="xPNG" width="15" height="15"/> -->
         <div class="formWrapper">
             <div class="logoContainer">
@@ -8,7 +12,7 @@
             
             <h2 id="loginTitle"> Sign up to TomoTalk </h2>    
 
-            <form @submit.prevent="login">
+            <form @submit.prevent="createAccount">
                 <div class="formInnerWrapper">
                 <div class="orSpacing">
                     <hr />
@@ -22,7 +26,7 @@
 
                 <input class="signUpInput" type="name" placeholder="Name"  v-model="loginCredentials.name"/> 
 
-                <button id="loginButton" @click="login"> Create Account </button> 
+                <button id="loginButton" @click="createAccount"> Create Account </button> 
                 
                 </div>
                 
@@ -32,18 +36,27 @@
 </template>
 
 <script setup>
-
+import AnimatedLoader from '../Visual/AnimatedLoader.vue';
 import { supabase } from '@/clients/supabase';
 import { reactive } from "vue";
+import { useRouter } from 'vue-router';
 
 const loginCredentials = reactive({
-    email: '',
-    password: '',
-    name: ''
+    email: 'bdriscoll407@gmail.com',
+    password: 'iiiiii777777',
+    name: 'Brian'
 });
 
-const login = async () => 
+const router = useRouter();
+
+const state = reactive({
+    isCreatingAccount: false
+})
+
+const createAccount = async () => 
 {
+    state.isCreatingAccount = true;
+
     const { data, error } = await supabase.auth.signUp({
         email: loginCredentials.email,
         password: loginCredentials.password
@@ -66,7 +79,7 @@ const login = async () =>
             let submissions = 0;
             let isSubmitted = false;
 
-            while (submissions < 1 && !isSubmitted)
+            while (submissions < 4 && !isSubmitted)
             {
                 try 
                 {
@@ -105,6 +118,8 @@ const login = async () =>
                     submissions += 1;
                 }
             }
+
+            router.push("/confirmAccount");
             
         }
     }
@@ -209,4 +224,20 @@ color: #0a21c0;
 {
 color: #828dd4;
 }
+
+/* Overlay */
+
+#overlay 
+{
+    background-color: rgba(255, 255, 255, 0.768);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 </style>

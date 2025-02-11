@@ -12,6 +12,11 @@ public class AccountService {
     @Autowired
     UsersRepository usersRepository;
 
+    public User getUser(UUID uuid)
+    {
+        return usersRepository.findByUuid(uuid);
+    }
+
     public void createUser(UUID uuid, String name, String email)
     {
         User user = new User();

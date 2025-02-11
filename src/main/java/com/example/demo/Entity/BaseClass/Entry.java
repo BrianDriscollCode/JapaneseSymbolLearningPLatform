@@ -1,6 +1,6 @@
 package com.example.demo.Entity.BaseClass;
 
-import com.example.demo.Entity.UserProgress;
+import com.example.demo.Entity.EntryProgress;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,8 +11,8 @@ public abstract class Entry {
     private Long entryID;
 
     @ManyToOne
-    @JoinColumn(name = "userID")
-    private UserProgress userProgress;
+    @JoinColumn(name = "EntryProgressID", nullable = false)
+    private EntryProgress entryProgress;
 
     @Column(name = "symbol", nullable = false)
     private Character symbol;

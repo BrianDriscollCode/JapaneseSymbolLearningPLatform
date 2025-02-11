@@ -6,14 +6,19 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "UserProgress")
-public class UserProgress {
+@Table(name = "EntryProgress")
+public class EntryProgress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userID;
+    @Column(name = "EntryProgressID")
+    private Long entryProgressID;  // Lowercased first letter for Java naming convention
 
-    @OneToMany(mappedBy = "userProgress", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "entryProgress", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Entry> entries;
+
+    @ManyToOne
+    @JoinColumn(name = "userID", nullable = false) // Corrected the column name
+    private User user; // Changed from "users" to "user" (singular)
 
     @Column(name = "multiplechoicescore", nullable = false)
     private Integer multipleChoiceScore;
@@ -24,3 +29,4 @@ public class UserProgress {
     @Column(name = "entrytype", nullable = false)
     private String entryType;
 }
+

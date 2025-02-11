@@ -80,6 +80,6 @@ h1
 
 #japanImage
 {
-  margin-bottom: 2em;
+
 }
 </style>

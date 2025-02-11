@@ -11,7 +11,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userID;
 
-    @Column(name = "uuid", columnDefinition = "VARCHAR(36)")
+    @Column(name = "uuid")
     private UUID uuid;
 
     @Column(name = "name")

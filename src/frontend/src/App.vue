@@ -28,8 +28,12 @@ const initSession = async () =>
 
   if (session)
   {
+    const data = await fetch(`/api/account/getUser/${session.user.id}`);
+    const res = await data.json();
+    
+    console.log(res);
+
     account.logIn(session.user.id);
-    console.log(session.user);
   }
 }
 
