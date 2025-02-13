@@ -6,9 +6,10 @@
             <img id="logo" :src="logo" width="100" height="100"/>
         </div>
         
-        <h2 id="loginTitle"> Sign in to TomoTalk </h2>    
+        <h2 id="loginTitle" v-if="!account.status"> Sign in to TomoTalk </h2>    
+        <h2 id="loginTitle" v-else> Sign out of TomoTalk </h2>  
 
-        <form @submit.prevent="login">
+        <form @submit.prevent="login" v-if="!account.status">
             
             <div class="formInnerWrapper">
             <div class="orSpacing">
@@ -26,6 +27,17 @@
             </div>
             
         </form>
+
+        <form @submit.prevent="logout" v-if="account.status">
+            
+            <div class="formInnerWrapper">
+            <div class="orSpacing">
+                <hr />
+            </div>
+            <button id="loginButton" @click="logout"> Logout </button> 
+            </div>
+            
+        </form>
         </div>
     </section> 
 </template>
@@ -33,12 +45,15 @@
 <script setup>
 import logo from "/japan.png"
 import { supabase } from '@/clients/supabase';
-import { reactive } from "vue";
+import { reactive, watchEffect } from "vue";
+import { useAccountStore } from "@/stores/account";
 
 const loginCredentials = reactive({
     email: '',
     password: ''
 });
+
+const account = useAccountStore();
 
 const login = async () => 
 {
@@ -62,6 +77,22 @@ const login = async () =>
         }
     }
 }
+
+const logout = async () =>
+{
+    const { error } = await supabase.auth.signOut();
+
+	if (error) {
+		console.log(error);
+	}
+	else {
+		console.log("Sign out success")
+	}
+}
+
+watchEffect(() => {
+    console.log("Account status changed:", account.status);
+});
 
 </script>
 

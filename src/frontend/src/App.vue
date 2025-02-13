@@ -21,21 +21,58 @@ watchEffect(() => {
   navigablePage.value = ["home", "learn", "login", "accountViewManager"].includes(route.name);
 });
 
-const initSession = async () => 
+const initSession = async (retries = 3, delay = 2000) => 
 {
-  console.log("run init session");
-  const  { data: {session}, error } = await supabase.auth.getSession();
-
-  if (session)
+  try 
   {
-    const data = await fetch(`/api/account/getUser/${session.user.id}`);
-    const res = await data.json();
-    
-    console.log(res);
+    console.log("run init session");
 
-    account.logIn(session.user.id);
+    const { data: { session }, error } = await supabase.auth.getSession();
+
+    if (error) 
+    {
+      throw new Error("Error getting session: " + error.message);
+    }
+
+    if (!session || !session.user) 
+    {
+      console.log("No active session found.");
+      account.logOut();
+      return;
+    }
+
+    console.log("Found session:");
+    //console.log(session);
+
+    const { id } = session.user;
+
+    const response = await fetch(`/api/account/getUser/${id}`);
+
+    if (!response.ok) 
+    {
+      throw new Error(`Failed to fetch user data: ${response.statusText}`);
+    }
+
+    const userData = await response.json();
+    account.logIn(userData.uuid, userData.name);
+  } 
+  catch (error) 
+  {
+    console.error("Error in initSession:", error);
+
+    if (retries > 0) 
+    {
+      console.log(`Retrying in ${delay / 1000} seconds... (${retries} retries left)`);
+      setTimeout(() => initSession(retries - 1, delay), delay);
+    } 
+    else 
+    {
+      console.error("All retries failed. Showing error message to user.");
+      showErrorMessage("Unable to connect to the server. Please try again later.");
+    }
   }
-}
+};
+
 
 onMounted(() => {
   initSession();
