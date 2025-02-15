@@ -133,7 +133,7 @@ public class ChartService {
         bRow.addCharacter("ば", "ba", "a");
         bRow.addCharacter("び", "bi", "i");
         bRow.addCharacter("ぶ", "bu", "u");
-        bRow.addCharacter("べ", "be", "e");cd
+        bRow.addCharacter("べ", "be", "e");
         bRow.addCharacter("ぼ", "bo", "o");
         chart.addRow(bRow);
 

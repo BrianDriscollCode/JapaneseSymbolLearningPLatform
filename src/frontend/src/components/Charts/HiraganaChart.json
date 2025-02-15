@@ -96,9 +96,9 @@
         ]
       },
       {
-        "row": "N",
+        "row": "NN",
         "characters": [
-          { "character": "ん", "romaji": "n", "column": "n" }
+          { "character": "ん", "romaji": "n", "column": "a" }
         ]
       },
       {
