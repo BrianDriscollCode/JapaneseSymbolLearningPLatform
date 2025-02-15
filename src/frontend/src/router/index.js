@@ -5,6 +5,7 @@ import LoginView from '@/views/LoginView.vue'
 import CreateAccountView from '@/views/CreateAccountView.vue'
 import AccountViewManager from '@/views/AccountViewManager.vue'
 import ConfirmAccount from '@/views/ConfirmAccount.vue'
+import CompetenceView from '@/views/CompetenceView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +40,11 @@ const router = createRouter({
       path: '/confirmAccount',
       name: 'confirmAccount',
       component: ConfirmAccount
+    },
+    {
+      path: '/competence',
+      name: 'competence',
+      component: CompetenceView
     }
   ],
 })

@@ -2,42 +2,46 @@
     <section class="formContainer">
         <!-- <img id="xPNG" :src="xPNG" width="15" height="15"/> -->
         <div class="formWrapper">
-        <div class="logoContainer">
-            <img id="logo" :src="logo" width="100" height="100"/>
-        </div>
-        
-        <h2 id="loginTitle" v-if="!account.status"> Sign in to TomoTalk </h2>    
-        <h2 id="loginTitle" v-else> Sign out of TomoTalk </h2>  
-
-        <form @submit.prevent="login" v-if="!account.status">
-            
-            <div class="formInnerWrapper">
-            <div class="orSpacing">
-                <hr />
+            <div id="redirectContainer" v-if="state.redirect">
+                <span> Redirecting in... </span> <span> {{ state.seconds }} </span>
             </div>
 
-            <input id="emailInput" type="email" placeholder="Email" v-model="loginCredentials.email"/>
-            <br />
-            <input id="passwordInput" type="password" placeholder="Password"  v-model="loginCredentials.password"/> 
-            <button id="loginButton" @click="login"> Login </button> 
+            <div class="logoContainer">
+                <img id="logo" :src="logo" width="100" height="100"/>
+            </div>
+            
+            <h2 id="loginTitle" v-if="!account.status"> Sign in to TomoTalk </h2>    
+            <h2 id="loginTitle" v-else> Sign out of TomoTalk </h2>  
 
-            <!-- Leaving sign up off because would require different license for supabase to have unknown accounts to signup -->
-            <p> Don't have an account? <RouterLink to="/signup" id="signUpLink"> Sign up </RouterLink> </p>
-            
-            </div>
-            
-        </form>
+            <form @submit.prevent="login" v-if="!account.status">
+                
+                <div class="formInnerWrapper">
+                <div class="orSpacing">
+                    <hr />
+                </div>
 
-        <form @submit.prevent="logout" v-if="account.status">
-            
-            <div class="formInnerWrapper">
-            <div class="orSpacing">
-                <hr />
-            </div>
-            <button id="loginButton" @click="logout"> Logout </button> 
-            </div>
-            
-        </form>
+                <input id="emailInput" type="email" placeholder="Email" v-model="loginCredentials.email"/>
+                <br />
+                <input id="passwordInput" type="password" placeholder="Password"  v-model="loginCredentials.password"/> 
+                <button id="loginButton" @click="login"> Login </button> 
+
+                <!-- Leaving sign up off because would require different license for supabase to have unknown accounts to signup -->
+                <p> Don't have an account? <RouterLink to="/signup" id="signUpLink"> Sign up </RouterLink> </p>
+                
+                </div>
+                
+            </form>
+
+            <form @submit.prevent="logout" v-if="account.status">
+                
+                <div class="formInnerWrapper">
+                <div class="orSpacing">
+                    <hr />
+                </div>
+                <button id="loginButton" @click="logout"> Logout </button> 
+                </div>
+                
+            </form>
         </div>
     </section> 
 </template>
@@ -45,15 +49,22 @@
 <script setup>
 import logo from "/japan.png"
 import { supabase } from '@/clients/supabase';
-import { reactive, watchEffect } from "vue";
+import { reactive } from "vue";
 import { useAccountStore } from "@/stores/account";
+import { useRouter } from "vue-router";
 
 const loginCredentials = reactive({
-    email: '',
-    password: ''
+    email: 'bdriscoll407@gmail.com',
+    password: 'iiiiii777777'
 });
 
+const state = reactive({
+    redirect: false,
+    seconds: 3
+})
+
 const account = useAccountStore();
+const router = useRouter();
 
 const login = async () => 
 {
@@ -67,13 +78,16 @@ const login = async () =>
 
     if (error)
     {
-        console.log("error", error.message);
+        console.log("error: ", error.message);
     }
     else 
     {
         if (data.user)
         {
-            console.log(data.user);
+            console.log(data.user.id, data.user.user_metadata.first_name);
+            account.logIn(data.user.id, data.user.user_metadata.first_name);
+            state.redirect = true;
+            redirect();
         }
     }
 }
@@ -87,12 +101,19 @@ const logout = async () =>
 	}
 	else {
 		console.log("Sign out success")
+        account.logOut();
 	}
 }
 
-watchEffect(() => {
-    console.log("Account status changed:", account.status);
-});
+const redirect = (number = 3) =>
+{
+    if (number <= 0) {
+        router.push("/learn");
+        return;
+    }
+    state.seconds = number;
+    setTimeout(() => redirect(number - 1), 1000);
+}
 
 </script>
 
@@ -206,5 +227,12 @@ color: #0a21c0;
 #signUpLink:active
 {
 color: #828dd4;
+}
+
+#redirectContainer
+{
+    display: flex;
+    justify-content: center;
+    font-size: 2em;
 }
 </style>

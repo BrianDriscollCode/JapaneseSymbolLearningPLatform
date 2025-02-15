@@ -6,6 +6,11 @@
 
 <script setup>
 import MultipleChoiceCard from '@/components/Learn/MultipleChoiceCard.vue';
+import HiraganaChart from "@/components/Charts/HiraganaChart.json";
+import KatakanaChart from "@/components/Charts/KatakanaChart.json";
+
+console.log("Hiragana Chart: ", HiraganaChart.rows);
+console.log("Katakana Chart: ", KatakanaChart.rows);
 </script>
 
 <style scoped>

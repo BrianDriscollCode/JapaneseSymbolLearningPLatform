@@ -1,0 +1,156 @@
+{
+    "rows": [
+      {
+        "row": "A",
+        "characters": [
+          { "character": "あ", "romaji": "a", "column": "a" },
+          { "character": "い", "romaji": "i", "column": "i" },
+          { "character": "う", "romaji": "u", "column": "u" },
+          { "character": "え", "romaji": "e", "column": "e" },
+          { "character": "お", "romaji": "o", "column": "o" }
+        ]
+      },
+      {
+        "row": "K",
+        "characters": [
+          { "character": "か", "romaji": "ka", "column": "a" },
+          { "character": "き", "romaji": "ki", "column": "i" },
+          { "character": "く", "romaji": "ku", "column": "u" },
+          { "character": "け", "romaji": "ke", "column": "e" },
+          { "character": "こ", "romaji": "ko", "column": "o" }
+        ]
+      },
+      {
+        "row": "S",
+        "characters": [
+          { "character": "さ", "romaji": "sa", "column": "a" },
+          { "character": "し", "romaji": "shi", "column": "i" },
+          { "character": "す", "romaji": "su", "column": "u" },
+          { "character": "せ", "romaji": "se", "column": "e" },
+          { "character": "そ", "romaji": "so", "column": "o" }
+        ]
+      },
+      {
+        "row": "T",
+        "characters": [
+          { "character": "た", "romaji": "ta", "column": "a" },
+          { "character": "ち", "romaji": "chi", "column": "i" },
+          { "character": "つ", "romaji": "tsu", "column": "u" },
+          { "character": "て", "romaji": "te", "column": "e" },
+          { "character": "と", "romaji": "to", "column": "o" }
+        ]
+      },
+      {
+        "row": "N",
+        "characters": [
+          { "character": "な", "romaji": "na", "column": "a" },
+          { "character": "に", "romaji": "ni", "column": "i" },
+          { "character": "ぬ", "romaji": "nu", "column": "u" },
+          { "character": "ね", "romaji": "ne", "column": "e" },
+          { "character": "の", "romaji": "no", "column": "o" }
+        ]
+      },
+      {
+        "row": "H",
+        "characters": [
+          { "character": "は", "romaji": "ha", "column": "a" },
+          { "character": "ひ", "romaji": "hi", "column": "i" },
+          { "character": "ふ", "romaji": "fu", "column": "u" },
+          { "character": "へ", "romaji": "he", "column": "e" },
+          { "character": "ほ", "romaji": "ho", "column": "o" }
+        ]
+      },
+      {
+        "row": "M",
+        "characters": [
+          { "character": "ま", "romaji": "ma", "column": "a" },
+          { "character": "み", "romaji": "mi", "column": "i" },
+          { "character": "む", "romaji": "mu", "column": "u" },
+          { "character": "め", "romaji": "me", "column": "e" },
+          { "character": "も", "romaji": "mo", "column": "o" }
+        ]
+      },
+      {
+        "row": "Y",
+        "characters": [
+          { "character": "や", "romaji": "ya", "column": "a" },
+          { "character": "ゆ", "romaji": "yu", "column": "u" },
+          { "character": "よ", "romaji": "yo", "column": "o" }
+        ]
+      },
+      {
+        "row": "R",
+        "characters": [
+          { "character": "ら", "romaji": "ra", "column": "a" },
+          { "character": "り", "romaji": "ri", "column": "i" },
+          { "character": "る", "romaji": "ru", "column": "u" },
+          { "character": "れ", "romaji": "re", "column": "e" },
+          { "character": "ろ", "romaji": "ro", "column": "o" }
+        ]
+      },
+      {
+        "row": "W",
+        "characters": [
+          { "character": "わ", "romaji": "wa", "column": "a" },
+          { "character": "を", "romaji": "wo", "column": "o" }
+        ]
+      },
+      {
+        "row": "N",
+        "characters": [
+          { "character": "ん", "romaji": "n", "column": "n" }
+        ]
+      },
+      {
+        "row": "G",
+        "characters": [
+          { "character": "が", "romaji": "ga", "column": "a" },
+          { "character": "ぎ", "romaji": "gi", "column": "i" },
+          { "character": "ぐ", "romaji": "gu", "column": "u" },
+          { "character": "げ", "romaji": "ge", "column": "e" },
+          { "character": "ご", "romaji": "go", "column": "o" }
+        ]
+      },
+      {
+        "row": "Z",
+        "characters": [
+          { "character": "ざ", "romaji": "za", "column": "a" },
+          { "character": "じ", "romaji": "ji", "column": "i" },
+          { "character": "ず", "romaji": "zu", "column": "u" },
+          { "character": "ぜ", "romaji": "ze", "column": "e" },
+          { "character": "ぞ", "romaji": "zo", "column": "o" }
+        ]
+      },
+      {
+        "row": "D",
+        "characters": [
+          { "character": "だ", "romaji": "da", "column": "a" },
+          { "character": "ぢ", "romaji": "ji", "column": "i" },
+          { "character": "づ", "romaji": "zu", "column": "u" },
+          { "character": "で", "romaji": "de", "column": "e" },
+          { "character": "ど", "romaji": "do", "column": "o" }
+        ]
+      },
+      {
+        "row": "B",
+        "characters": [
+          { "character": "ば", "romaji": "ba", "column": "a" },
+          { "character": "び", "romaji": "bi", "column": "i" },
+          { "character": "ぶ", "romaji": "bu", "column": "u" },
+          { "character": "べ", "romaji": "be", "column": "e" },
+          { "character": "ぼ", "romaji": "bo", "column": "o" }
+        ]
+      },
+      {
+        "row": "P",
+        "characters": [
+          { "character": "ぱ", "romaji": "pa", "column": "a" },
+          { "character": "ぴ", "romaji": "pi", "column": "i" },
+          { "character": "ぷ", "romaji": "pu", "column": "u" },
+          { "character": "ぺ", "romaji": "pe", "column": "e" },
+          { "character": "ぽ", "romaji": "po", "column": "o" }
+        ]
+      }
+    ]
+  }
+  
