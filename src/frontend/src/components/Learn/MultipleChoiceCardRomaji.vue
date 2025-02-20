@@ -1,19 +1,19 @@
 <template>
     <div id="card">
-        <span> What is the Katakana symbol for 'a'?</span>
+        <span> What is the {{ state.kana }} symbol for '{{ state.romaji }}'?</span>
 
         <div id="multipleChoiceAnswers">
             <div class="entry"> 
-                <input type="radio" name="answer" @click="pickAnswer(1)"> <span> あ </span>
+                <input type="radio" name="answer" @click="pickAnswer(1)"> <span> {{ state.answer1 }} </span>
             </div>
             <div class="entry"> 
-                <input type="radio" name="answer" @click="pickAnswer(2)"> <span> あ </span>
+                <input type="radio" name="answer" @click="pickAnswer(2)"> <span> {{ state.answer2 }} </span>
             </div>
             <div class="entry"> 
-                <input type="radio" name="answer" @click="pickAnswer(3)"> <span> あ </span>
+                <input type="radio" name="answer" @click="pickAnswer(3)"> <span> {{ state.answer3 }} </span>
             </div>
             <div class="entry"> 
-                <input type="radio" name="answer" @click="pickAnswer(4)"> <span> あ </span>
+                <input type="radio" name="answer" @click="pickAnswer(4)"> <span> {{ state.answer4 }} </span>
             </div>
 
             <button @click="submitAnswer" class="button"> Submit </button>
@@ -22,7 +22,32 @@
 </template>
 
 <script setup> 
-import { reactive } from "vue";
+import { reactive, defineProps } from "vue";
+
+// which answer is answer line is correct.
+// generate random kana for other lines
+// I have to know if it is going to be hiragana or katana
+// I have to know what romaji is chosen
+
+const props = defineProps({
+    kana: String,
+    romaji: String,
+    answer1: String,
+    answer2: String,
+    answer3: String,
+    answer4: String,
+    correctLine: Number
+});
+
+const state = reactive({
+    kana: "Hiragana",
+    romaji: "a",
+    answer1: "あ",
+    answer2: "い",
+    answer3: "う",
+    answer4: "お",
+    correctLine: 1
+});
 
 const answer = reactive({
     one: false,

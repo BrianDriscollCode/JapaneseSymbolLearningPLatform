@@ -14,7 +14,9 @@
                 <th id="noStyleTableCell"> o </th>
             </thead>
             <tbody v-for="item in HiraganaChart.rows">
-                <tr @click="learningSettings.toggleRow(item.row)">
+                <tr>
+
+                    <!-- row check box -->
                     <td id="noStyleTableCell"> 
                         <!-- Bind v-model to the selected row value -->
                         <input
@@ -24,24 +26,36 @@
                             @change="toggleRow(item.row)"
                         />
                     </td>
+
+                    <!-- Row Letter -->
                     <td id="noStyleTableCell"> {{ item.row.toLowerCase() }}</td>
                     
-                    <td v-if="item.characters?.[0]?.character"> {{ item.characters[0].column == 'a' ? item.characters[0].character : ' ' }} </td>
-                    <td v-else> </td>
+                    <!-- Columns: 'a' 'i' 'u' 'e' 'o' -->
+                    <!-- list of characters - logic prints the object data with exceptions for 'u' and 'o' columns -->
 
-                    <td v-if="item.characters?.[1]?.character"> {{ item.characters[1].column == 'i' ? item.characters[1].character : ' ' }} </td>
-                    <td v-else> </td>
+                    <!-- a -->
+                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-if="item.characters?.[0]?.character"> {{ item.characters[0].column == 'a' ? item.characters[0].character : ' ' }} </td>
+                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else> </td>
 
-                    <td v-if="item.characters?.[2]?.character"> {{ item.characters[2].column == 'u' ? item.characters[2].character : item.characters[1].character }} </td> 
-                    <td v-else> </td>
+                    <!-- i -->
+                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-if="item.characters?.[1]?.character"> {{ item.characters[1].column == 'i' ? item.characters[1].character : ' ' }} </td>
+                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else> </td>
 
-                    <td v-if="item.characters?.[3]?.character"> {{ item.characters[3].column == 'e' ? item.characters[3].character : ' ' }} </td>
-                    <td v-else> </td>
+                    <!-- u -->
+                    <!-- For exceptions of 'u' column -->
+                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-if="item.characters?.[2]?.character"> {{ item.characters[2].column == 'u' ? item.characters[2].character : item.characters[1].character }} </td> 
+                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else> </td>
+
+                    <!-- e -->
+                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-if="item.characters?.[3]?.character"> {{ item.characters[3].column == 'e' ? item.characters[3].character : ' ' }} </td>
+                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else> </td>
                     
-                    <td v-if="item.characters?.[4]?.character"> {{ item.characters[4].column == 'o' ? item.characters[4].character : 'f' }} </td>
-                    <td v-else-if="item.characters[2]?.character"> {{ item.characters[2].character }}</td>
-                    <td v-else-if="item.characters[1]?.character"> {{ item.characters[1].character }}</td>
-                    <td v-else> </td>
+                    <!-- o -->
+                    <!-- For exceptions of 'o' column -->
+                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-if="item.characters?.[4]?.character"> {{ item.characters[4].column == 'o' ? item.characters[4].character : 'f' }} </td>
+                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else-if="item.characters[2]?.character"> {{ item.characters[2].character }}</td>
+                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else-if="item.characters[1]?.character"> {{ item.characters[1].character }}</td>
+                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else> </td>
                 </tr>
             </tbody>
 
@@ -61,34 +75,36 @@ const random = reactive({
 });
 
 const myData = reactive({
-    A: learningSettings.availableRows.A,
-    K: learningSettings.availableRows.K,
-    S: learningSettings.availableRows.S,
-    T: learningSettings.availableRows.T,
-    N: learningSettings.availableRows.N,
-    H: learningSettings.availableRows.H,
-    M: learningSettings.availableRows.M,
-    Y: learningSettings.availableRows.Y,
-    R: learningSettings.availableRows.R,
-    W: learningSettings.availableRows.W,
-    NN: learningSettings.availableRows.NN,
-    G: learningSettings.availableRows.G,
-    Z: learningSettings.availableRows.Z,
-    D: learningSettings.availableRows.D,
-    B: learningSettings.availableRows.B,
-    P: learningSettings.availableRows.P,
-})
+    A: learningSettings.availableHiraganaRows.A,
+    K: learningSettings.availableHiraganaRows.K,
+    S: learningSettings.availableHiraganaRows.S,
+    T: learningSettings.availableHiraganaRows.T,
+    N: learningSettings.availableHiraganaRows.N,
+    H: learningSettings.availableHiraganaRows.H,
+    M: learningSettings.availableHiraganaRows.M,
+    Y: learningSettings.availableHiraganaRows.Y,
+    R: learningSettings.availableHiraganaRows.R,
+    W: learningSettings.availableHiraganaRows.W,
+    NN: learningSettings.availableHiraganaRows.NN,
+    G: learningSettings.availableHiraganaRows.G,
+    Z: learningSettings.availableHiraganaRows.Z,
+    D: learningSettings.availableHiraganaRows.D,
+    B: learningSettings.availableHiraganaRows.B,
+    P: learningSettings.availableHiraganaRows.P,
+});
+
 
 console.log("Hiragana Chart: ", HiraganaChart);
 function toggleRow(row) {
-    learningSettings.toggleRow(row);
+    learningSettings.toggleHiraganaRow(row);
 }
 
 
 
 watchEffect(() => {
-    console.log(learningSettings.availableRows);
-})
+    console.log(learningSettings.availableHiraganaRows);
+});
+
 
 </script>
 
@@ -104,15 +120,24 @@ watchEffect(() => {
   width: 100%;
 }
 
+#cellRow
+{
+    background-color: #c5ffea;
+}
+
+#cellFilled
+{
+    background-color: #ffc251; 
+}
+
 #chart td, #chart th {
   border: 1px solid #ddd;
   padding: 4px;
-  background-color: #c5ffea;
+  /* background-color: #c5ffea; */
 }
 
 #chart tr:nth-child(even){background-color: #f2f2f2;}
 
-#chart tr:hover {background-color: #ddd;}
 
 #chart th {
   padding-top: 12px;
