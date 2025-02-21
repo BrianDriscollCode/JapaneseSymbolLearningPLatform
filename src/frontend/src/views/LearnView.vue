@@ -11,7 +11,17 @@
                 <button @click="showSettings" id="settingsButton"> Settings </button>
             </div>
 
-            <MultipleChoiceCardRomaji />
+            <MultipleChoiceCardRomaji 
+                :kana="question.kana"
+                :romaji="question.romaji"
+                :answer1="question.answer1"
+                :answer2="question.answer2"
+                :answer3="question.answer3"
+                :answer4="question.answer4"
+                :correctLine="question.correctLine"
+                v-if="question.displayQuestion"
+                @submit="listenForSubmit"
+            />
 
             <div id="arrowContainer"> 
                 <button class="arrowButton"> <- </button>
@@ -31,6 +41,20 @@ import KatakanaChart from "@/components/Charts/KatakanaChart.json";
 
 const learnSettings = useLearnSettingsStore();
 
+let answerArray = [];
+
+const listenForSubmit = (response) =>
+{
+    console.log(response);
+    answerArray.push(response);
+    for (const res of answerArray)
+    {
+        console.log(res);
+    }
+
+    createQuestion();
+}
+
 onMounted(() => {
     console.log("LearnView Hiragana Rows: ", learnSettings.availableHiraganaRows);
     console.log("LearnView Katakana Rows: ", learnSettings.availableKatakanaRows);
@@ -38,11 +62,49 @@ onMounted(() => {
     createQuestion();
 });
 
+const question = reactive({ 
+    kana: "",
+    romaji: "",
+    answer1: "",
+    answer2: "",
+    answer3: "",
+    answer4: "",
+    correctLine: null,
+    displayQuestion: false
+});
 
 const createQuestion = () =>
 {
     const availableCharacters = getAvailableCharacters();
     console.log("Available Characters: ", availableCharacters);
+    let size = availableCharacters.size - 1;
+
+    // generate possible answers
+    let answers = new Set();
+    while (answers.size < 4) {
+        let chooser = Math.floor(Math.random() * size) + 1;
+        answers.add(chooser);
+    }
+    answers = [...answers]; // Convert Set to Array
+
+    let rightAnswer = Math.floor(Math.random() * 4) + 0;
+
+    question.answer1 = availableCharacters.get(answers[0]).character;
+    question.answer2 = availableCharacters.get(answers[1]).character;
+    question.answer3 = availableCharacters.get(answers[2]).character;
+    question.answer4 = availableCharacters.get(answers[3]).character;
+
+    question.correctLine = rightAnswer;
+    question.romaji = availableCharacters.get(answers[rightAnswer]).romaji;
+    
+
+    question.displayQuestion = false;
+    question.displayQuestion = true;
+
+    console.log(question.answer1);
+    console.log(question.answer2);
+    console.log(question.answer3);
+    console.log(question.answer4);
 }
 
 const getAvailableCharacters = () => 
@@ -54,11 +116,14 @@ const getAvailableCharacters = () =>
     //console.log("katakanaAvailable: ", katakanaAvailable);
 
     let kanaType = getKanaType(hiraganaAvailable, katakanaAvailable);
+    question.kana = kanaType;
     console.log("kanaType: " + kanaType);
 
     if (kanaType == "Hiragana")
     {
         const hiraganaRows = new Map();
+
+        let positionNumber = 0;
 
         for (let i = 0; i < HiraganaChart.rows.length; i++)
         {
@@ -67,9 +132,15 @@ const getAvailableCharacters = () =>
                 for (let n = 0; n < HiraganaChart.rows[i].characters.length; n++)
                 {
                     hiraganaRows.set(
-                        HiraganaChart.rows[i].characters[n].character,
-                        HiraganaChart.rows[i].characters[n].romaji
+                        positionNumber,
+                        // {character, romaji} - object
+                        {
+                            character: HiraganaChart.rows[i].characters[n].character,
+                            romaji: HiraganaChart.rows[i].characters[n].romaji
+                        }
                     )
+
+                    positionNumber += 1;
                 }
             }
         }
@@ -80,6 +151,8 @@ const getAvailableCharacters = () =>
     {
         const katakanaRows = new Map();
 
+        let positionNumber = 0;
+
         for (let i = 0; i < KatakanaChart.rows.length; i++)
         {
             if (learnSettings.availableKatakanaRows[KatakanaChart.rows[i].row])
@@ -87,9 +160,15 @@ const getAvailableCharacters = () =>
                 for (let n = 0; n < KatakanaChart.rows[i].characters.length; n++)
                 {
                     katakanaRows.set(
-                        KatakanaChart.rows[i].characters[n].character,
-                        KatakanaChart.rows[i].characters[n].romaji
+                        positionNumber,
+                        // {character, romaji} - object
+                        {
+                            character: KatakanaChart.rows[i].characters[n].character,
+                            romaji: KatakanaChart.rows[i].characters[n].romaji
+                        }
                     )
+
+                    positionNumber += 1;
                 }
             }
         }

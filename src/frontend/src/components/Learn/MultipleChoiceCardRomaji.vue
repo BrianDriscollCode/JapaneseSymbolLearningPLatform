@@ -2,32 +2,55 @@
     <div id="card">
         <span> What is the {{ state.kana }} symbol for '{{ state.romaji }}'?</span>
 
-        <div id="multipleChoiceAnswers">
+        <!-- <div id="multipleChoiceAnswers">
             <div class="entry"> 
-                <input type="radio" name="answer" @click="pickAnswer(1)"> <span> {{ state.answer1 }} </span>
+                1. <input type="radio" name="answer" v-model="state.answer1" @click="pickAnswer(1)"> <span> {{ state.answer1 }} </span>
             </div>
             <div class="entry"> 
-                <input type="radio" name="answer" @click="pickAnswer(2)"> <span> {{ state.answer2 }} </span>
+                2. <input type="radio" name="answer" v-model="state.answer2" @click="pickAnswer(2)"> <span> {{ state.answer2 }} </span>
             </div>
             <div class="entry"> 
-                <input type="radio" name="answer" @click="pickAnswer(3)"> <span> {{ state.answer3 }} </span>
+                3. <input type="radio" name="answer" v-model="state.answer3" @click="pickAnswer(3)"> <span> {{ state.answer3 }} </span>
             </div>
             <div class="entry"> 
-                <input type="radio" name="answer" @click="pickAnswer(4)"> <span> {{ state.answer4 }} </span>
+                4. <input type="radio" name="answer" v-model="state.answer4" @click="pickAnswer(4)"> <span> {{ state.answer4 }} </span>
             </div>
 
+            <button @click="submitAnswer" class="button"> Submit </button>
+        </div> -->
+        <div id="multipleChoiceAnswers">
+            <div class="entry" v-for="(answer, index) in [state.answer1, state.answer2, state.answer3, state.answer4]" :key="index">
+                <input 
+                    type="radio"
+                    name="answer"
+                    :value="index + 1"
+                    v-model="state.selectedAnswer"
+                    @change="pickAnswer(index + 1)"
+                />
+                <span>{{ answer }}</span>
+            </div>
             <button @click="submitAnswer" class="button"> Submit </button>
         </div>
     </div>
 </template>
 
 <script setup> 
-import { reactive, defineProps } from "vue";
+import { reactive, defineProps, watchEffect, defineEmits  } from "vue";
 
 // which answer is answer line is correct.
 // generate random kana for other lines
 // I have to know if it is going to be hiragana or katana
 // I have to know what romaji is chosen
+
+const emit = defineEmits({
+  submit: (payload) => {
+    if (typeof payload.romaji === 'string' && typeof payload.response === 'string') {
+      return true;
+    }
+    console.warn("Invalid payload for submit event", payload);
+    return false;
+  }
+});
 
 const props = defineProps({
     kana: String,
@@ -40,14 +63,26 @@ const props = defineProps({
 });
 
 const state = reactive({
-    kana: "Hiragana",
-    romaji: "a",
-    answer1: "あ",
-    answer2: "い",
-    answer3: "う",
-    answer4: "お",
-    correctLine: 1
+    kana: props.kana,
+    romaji: props.romaji,
+    answer1: props.answer1,
+    answer2: props.answer2,
+    answer3: props.answer3,
+    answer4: props.answer4,
+    selectedAnswer: null,
+    correctLine: props.correctLine
 });
+
+watchEffect(() => {
+    console.log("card state.kana: ", props.romaji);
+    state.kana = props.kana,
+    state.romaji = props.romaji,
+    state.answer1 = props.answer1,
+    state.answer2 = props.answer2,
+    state.answer3 = props.answer3,
+    state.answer4 = props.answer4,
+    state.correctLine = props.correctLine
+})
 
 const answer = reactive({
     one: false,
@@ -90,10 +125,39 @@ const pickAnswer = (numberChosen) =>
 
 const submitAnswer = () =>
 {
-    console.log("One: " + answer.one);
-    console.log("Two: " + answer.two);
-    console.log("Three: " + answer.three);
-    console.log("Four: " + answer.four);
+    let correctAnswer = state.correctLine + 1;
+    let response = false;
+
+    if (answer.one && correctAnswer == 1)
+    {
+        console.log("Correct!");
+        response = true;
+    }
+    else if (answer.two && correctAnswer == 2)
+    {
+        console.log("Correct!");
+        response = true;
+    }
+    else if (answer.three && correctAnswer == 3)
+    {
+        console.log("Correct!");
+        response = true;
+    }
+    else if (answer.four && correctAnswer == 4)
+    {
+        console.log("Correct!");
+        response = true;
+    }
+    else
+    {
+        console.log("Incorrect!");
+        response = false;
+    }
+
+
+    emit('submit', {romaji: state.romaji, response: response });
+    state.selectedAnswer = null;
+
 }
 
 </script>
