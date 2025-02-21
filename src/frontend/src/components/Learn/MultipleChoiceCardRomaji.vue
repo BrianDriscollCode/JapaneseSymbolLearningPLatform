@@ -1,23 +1,12 @@
 <template>
-    <div id="card">
+    <div :class="{ cardShow: state.showCard, card: !state.showCard }">
+
+        <div id="questionNumberContainer">
+            Question: 1/10
+        </div>
+        
         <span> What is the {{ state.kana }} symbol for '{{ state.romaji }}'?</span>
 
-        <!-- <div id="multipleChoiceAnswers">
-            <div class="entry"> 
-                1. <input type="radio" name="answer" v-model="state.answer1" @click="pickAnswer(1)"> <span> {{ state.answer1 }} </span>
-            </div>
-            <div class="entry"> 
-                2. <input type="radio" name="answer" v-model="state.answer2" @click="pickAnswer(2)"> <span> {{ state.answer2 }} </span>
-            </div>
-            <div class="entry"> 
-                3. <input type="radio" name="answer" v-model="state.answer3" @click="pickAnswer(3)"> <span> {{ state.answer3 }} </span>
-            </div>
-            <div class="entry"> 
-                4. <input type="radio" name="answer" v-model="state.answer4" @click="pickAnswer(4)"> <span> {{ state.answer4 }} </span>
-            </div>
-
-            <button @click="submitAnswer" class="button"> Submit </button>
-        </div> -->
         <div id="multipleChoiceAnswers">
             <div class="entry" v-for="(answer, index) in [state.answer1, state.answer2, state.answer3, state.answer4]" :key="index">
                 <input 
@@ -35,16 +24,11 @@
 </template>
 
 <script setup> 
-import { reactive, defineProps, watchEffect, defineEmits  } from "vue";
-
-// which answer is answer line is correct.
-// generate random kana for other lines
-// I have to know if it is going to be hiragana or katana
-// I have to know what romaji is chosen
+import { reactive, defineProps, watchEffect, defineEmits, onMounted } from "vue";
 
 const emit = defineEmits({
   submit: (payload) => {
-    if (typeof payload.romaji === 'string' && typeof payload.response === 'string') {
+    if (typeof payload.romaji === 'string' && typeof payload.response === 'boolean') {
       return true;
     }
     console.warn("Invalid payload for submit event", payload);
@@ -63,113 +47,66 @@ const props = defineProps({
 });
 
 const state = reactive({
-    kana: props.kana,
-    romaji: props.romaji,
-    answer1: props.answer1,
-    answer2: props.answer2,
-    answer3: props.answer3,
-    answer4: props.answer4,
+    ...props,
     selectedAnswer: null,
-    correctLine: props.correctLine
+    showCard: false
 });
 
 watchEffect(() => {
-    console.log("card state.kana: ", props.romaji);
-    state.kana = props.kana,
-    state.romaji = props.romaji,
-    state.answer1 = props.answer1,
-    state.answer2 = props.answer2,
-    state.answer3 = props.answer3,
-    state.answer4 = props.answer4,
-    state.correctLine = props.correctLine
-})
-
-const answer = reactive({
-    one: false,
-    two: false,
-    three: false,
-    four: false
+    Object.assign(state, props);
 });
 
-const pickAnswer = (numberChosen) => 
-{
-    if (numberChosen == 1)
-    {
-        answer.one = true;
-        answer.two = false;
-        answer.three = false;
-        answer.four = false;
-    }
-    else if (numberChosen == 2)
-    {
-        answer.one = false;
-        answer.two = true;
-        answer.three = false;
-        answer.four = false;
-    }
-    else if (numberChosen == 3)
-    {
-        answer.one = false;
-        answer.two = false;
-        answer.three = true;
-        answer.four = false;
-    }
-    else if (numberChosen == 4)
-    {
-        answer.one = false;
-        answer.two = false;
-        answer.three = false;
-        answer.four = true;
-    }
-}
+const pickAnswer = (numberChosen) => {
+    state.selectedAnswer = numberChosen;
+};
 
-const submitAnswer = () =>
-{
-    let correctAnswer = state.correctLine + 1;
-    let response = false;
-
-    if (answer.one && correctAnswer == 1)
-    {
-        console.log("Correct!");
-        response = true;
-    }
-    else if (answer.two && correctAnswer == 2)
-    {
-        console.log("Correct!");
-        response = true;
-    }
-    else if (answer.three && correctAnswer == 3)
-    {
-        console.log("Correct!");
-        response = true;
-    }
-    else if (answer.four && correctAnswer == 4)
-    {
-        console.log("Correct!");
-        response = true;
-    }
-    else
-    {
-        console.log("Incorrect!");
-        response = false;
-    }
-
-
-    emit('submit', {romaji: state.romaji, response: response });
+const submitAnswer = () => {
+    console.log(state.selectedAnswer, state.correctLine + 1);
+    const response = state.selectedAnswer === state.correctLine + 1;
+    console.log(response ? "Correct!" : "Incorrect!");
+    emit('submit', { romaji: state.romaji, response });
     state.selectedAnswer = null;
+    restartCard();
+};
 
+const restartCard = () => {
+    state.showCard = false;
+    setTimeout(() => {
+        state.showCard = true;
+    }, 25); // Short delay ensures Vue registers the change
 }
 
+onMounted(() => {
+    restartCard();
+});
 </script>
 
+
 <style scoped>
-#card 
+.card 
 {
-    height: 225px;
+    opacity: 0.0;
+
     border-radius: 1em;
     background-color: rgb(255, 255, 255);
     padding: 1em;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow */
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cardShow
+{
+    opacity: 1;
+
+    border-radius: 1em;
+    background-color: rgb(255, 255, 255);
+    padding: 1em;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s;
+}
+
+#questionNumberContainer
+{
+    margin-bottom: 1em;
 }
 
 #multipleChoiceAnswers
@@ -194,7 +131,6 @@ const submitAnswer = () =>
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   box-shadow: 4px 4px 0 #8c2f39; /* Deep shadow for a modern touch */
-  margin-bottom: 2em;
 }
 
 .button:hover {

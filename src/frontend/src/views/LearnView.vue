@@ -6,9 +6,19 @@
             </div>
 
             <div id="settingsContainer">
+                <!-- <button @click="showSettings" id="settingsButton"> Settings </button>
                 <button @click="showSettings" id="settingsButton"> Settings </button>
-                <button @click="showSettings" id="settingsButton"> Settings </button>
-                <button @click="showSettings" id="settingsButton"> Settings </button>
+                <button @click="showSettings" id="settingsButton"> Settings </button> -->
+                <div class="topButton" @click="showSettings">
+                    <img src="/icons8-settings-100.png" width="50" height="50" />
+                    <p class="buttonText"> Settings </p>
+                </div>
+                <div class="topButton">
+                    <span> x </span>
+                </div>
+                <div class="topButton">
+                    <span> x </span>
+                </div>
             </div>
 
             <MultipleChoiceCardRomaji 
@@ -24,8 +34,8 @@
             />
 
             <div id="arrowContainer"> 
-                <button class="arrowButton"> <- </button>
-                <button class="arrowButton"> -> </button>
+                <div class="arrowButton"> <img src="/icons8-arrow-48.png" id="flipImg"/> </div>
+                <div class="arrowButton"> <img src="/icons8-arrow-48.png"/> </div>
             </div>
         </div>
     </div>
@@ -38,6 +48,7 @@ import { reactive, onMounted } from 'vue';
 import { useLearnSettingsStore } from '@/stores/LearnSettings';
 import HiraganaChart from "@/components/Charts/HiraganaChart.json";
 import KatakanaChart from "@/components/Charts/KatakanaChart.json";
+
 
 const learnSettings = useLearnSettingsStore();
 
@@ -258,10 +269,44 @@ const exitSettings = () =>
 </script>
 
 <style scoped>
+
 #settingsButton
 {
     margin-bottom: 1em;
     padding: 1em 2em;
+}
+
+.topButton
+{
+    width: 100px;
+    height: 100px;
+    background-color: #a7dadc;
+    border-radius: 1em;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.topButton:hover
+{
+    width: 100px;
+    height: 100px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.3s;
+}
+
+.topButton img 
+{
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+}
+
+.buttonText
+{
+    margin: 0;
 }
 
 #settingOverlayContainer
@@ -282,6 +327,7 @@ const exitSettings = () =>
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+    margin-bottom: 1em;
 
 }
 
@@ -310,8 +356,18 @@ const exitSettings = () =>
 
 .arrowButton
 {
-    padding: 1em 2em;
+    margin: 0 1em;
 
+}
+
+.arrowButton:hover
+{
+    background-color: #a7dadc;
+}
+
+#flipImg
+{
+    transform: scaleX(-1);
 }
 
 
