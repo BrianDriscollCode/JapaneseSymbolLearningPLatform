@@ -1,23 +1,26 @@
 <template>
     <div id="learnContainer"> 
         <div id="learnWrapper">
-            <div id="settingOverlayContainer" v-if="state.overlay">
-                <SettingsOverlay  @exit="exitSettings"/>
+            <div id="settingOverlayContainer" v-if="state.kanaOverlay || state.kanjiOverlay">
+                <KanaSettingsOverlay  @exit="exitKanaSettings" v-if="state.kanaOverlay"/>
+                <KanjiSettingsOverlay @exit="exitKanjiSettings" v-if="state.kanjiOverlay"/>
             </div>
 
             <div id="settingsContainer">
                 <!-- <button @click="showSettings" id="settingsButton"> Settings </button>
                 <button @click="showSettings" id="settingsButton"> Settings </button>
                 <button @click="showSettings" id="settingsButton"> Settings </button> -->
-                <div class="topButton" @click="showSettings">
-                    <img src="/icons8-settings-100.png" width="50" height="50" />
-                    <p class="buttonText"> Settings </p>
+                <div class="topButton" @click="showKanaSettings">
+                    <img src="/LearnIcons/icons8-japanese-50.png" width="50" height="50" />
+                    <p class="buttonText"> Kana </p>
                 </div>
-                <div class="topButton">
-                    <span> x </span>
+                <div class="topButton" @click="showKanjiSettings">
+                    <img src="/LearnIcons/icons8-kanji-50.png" width="50" height="50" />
+                    <p class="buttonText"> Kanji </p>
                 </div>
-                <div class="topButton">
-                    <span> x </span>
+                <div class="topButton" @click="goToInfo">
+                    <img src="/LearnIcons/icons8-info-50.png" width="50" height="50" />
+                    <p class="buttonText"> Info </p>
                 </div>
             </div>
 
@@ -51,12 +54,15 @@
 <script setup>
 import MultipleChoiceCardRomaji from '@/components/Learn/MultipleChoiceCardRomaji.vue';
 import FinishSession from "@/components/Learn/FinishSession.vue"
-import SettingsOverlay from '@/components/Learn/SettingsOverlay.vue';
+import KanaSettingsOverlay from '@/components/Learn/KanaSettingsOverlay.vue';
+import KanjiSettingsOverlay from '@/components/Learn/KanjiSettingsOverlay.vue';
 import { reactive, onMounted } from 'vue';
 import { useLearnSettingsStore } from '@/stores/LearnSettings';
 import HiraganaChart from "@/components/Charts/HiraganaChart.json";
 import KatakanaChart from "@/components/Charts/KatakanaChart.json";
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 
 const learnSettings = useLearnSettingsStore();
 
@@ -284,17 +290,33 @@ const getKanaType = (hiraganaAvailable, katakanaAvailable) =>
 }
 
 const state = reactive({
-    overlay: false,
+    kanaOverlay: false,
+    kanjiOverlay: false,
 });
 
-const showSettings = () => 
+const showKanaSettings = () => 
 {
-    state.overlay = true;
+    state.kanaOverlay = true;
 }
 
-const exitSettings = () =>
+const exitKanaSettings = () =>
 {
-    state.overlay = false;
+    state.kanaOverlay = false;
+}
+
+const showKanjiSettings = () => 
+{
+    state.kanjiOverlay = true;
+}
+
+const exitKanjiSettings = () =>
+{
+    state.kanjiOverlay = false;
+}
+
+const goToInfo = () =>
+{
+    router.push("/");
 }
 </script>
 
