@@ -5,8 +5,8 @@ export const useLearnSettingsStore = defineStore('LearnSettings', {
     state: () => {
         return { 
             availableHiraganaRows: {
-                A: JSON.parse(localStorage.getItem('availableHiraganaRowsA')) || false,
-                K: JSON.parse(localStorage.getItem('availableHiraganaRowsK')) || false,
+                A: JSON.parse(localStorage.getItem('availableHiraganaRowsA')) || true,
+                K: JSON.parse(localStorage.getItem('availableHiraganaRowsK')) || true,
                 S: JSON.parse(localStorage.getItem('availableHiraganaRowsS')) || false,
                 T: JSON.parse(localStorage.getItem('availableHiraganaRowsT')) || false,
                 N: JSON.parse(localStorage.getItem('availableHiraganaRowsN')) || false,

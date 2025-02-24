@@ -16,6 +16,8 @@ import KatakanaChartSetter from '../Charts/KatakanaChartSetter.vue';
 </script>
 
 <style scoped>
+
+
 #xButton
 {
     cursor: pointer;
@@ -25,7 +27,7 @@ import KatakanaChartSetter from '../Charts/KatakanaChartSetter.vue';
     font-size: 2em;
 }
 
-#description
+/* #description
 {
     position: absolute;
     font-size: 1.5em;
@@ -33,17 +35,17 @@ import KatakanaChartSetter from '../Charts/KatakanaChartSetter.vue';
     top: 2em;
     width: 33%;
     padding-left: 1em;
-}
+} */
 
 #settingsOverlayWrapper
 {
+    text-align: center;
     background-color: rgba(255, 255, 255, 0.938);
     position: absolute;
     width: 90%;
     height: 90vh;
     display: flex;
-    justify-content: center;
-    flex-direction: row;
+    flex-direction: column;
     border: 1px solid rgb(221, 60, 11);
 }
 
@@ -52,7 +54,6 @@ import KatakanaChartSetter from '../Charts/KatakanaChartSetter.vue';
     display: flex;
     justify-content: center;
     flex-direction: row;
-    margin-top: 2em;
 }
 
 #hiraganaChart
