@@ -7,7 +7,8 @@ export const useAccountStore = defineStore('account', {
             name: '',
             // Either get item or empty
             uuid: localStorage.getItem('uuid') || '',  
-            isAdmin: false
+            isAdmin: false,
+            subscription: false
         }
     },
 

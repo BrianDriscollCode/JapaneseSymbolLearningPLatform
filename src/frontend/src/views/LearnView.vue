@@ -41,6 +41,7 @@
             <FinishSession
                 :numberCorrect="count.correct"
                 :maxQuestions="count.max" 
+                @restart="restart"
                 v-else
             />
 
@@ -68,7 +69,7 @@ const learnSettings = useLearnSettingsStore();
 
 const count = reactive({
     amount: 1,
-    max: 3,
+    max: learnSettings.numberOfQuestions,
     correct: 0
 })
 
@@ -317,6 +318,12 @@ const exitKanjiSettings = () =>
 const goToInfo = () =>
 {
     router.push("/");
+}
+
+const restart = () => 
+{
+    count.amount = 1;
+    question.displayQuestion = true;
 }
 </script>
 

@@ -5,8 +5,8 @@ export const useLearnSettingsStore = defineStore('LearnSettings', {
     state: () => {
         return { 
             availableHiraganaRows: {
-                A: JSON.parse(localStorage.getItem('availableHiraganaRowsA')) || true,
-                K: JSON.parse(localStorage.getItem('availableHiraganaRowsK')) || true,
+                A: JSON.parse(localStorage.getItem('availableHiraganaRowsA')) || false,
+                K: JSON.parse(localStorage.getItem('availableHiraganaRowsK')) || false,
                 S: JSON.parse(localStorage.getItem('availableHiraganaRowsS')) || false,
                 T: JSON.parse(localStorage.getItem('availableHiraganaRowsT')) || false,
                 N: JSON.parse(localStorage.getItem('availableHiraganaRowsN')) || false,
@@ -40,7 +40,7 @@ export const useLearnSettingsStore = defineStore('LearnSettings', {
                 B: JSON.parse(localStorage.getItem('availableKatakanaRowsB')) || false,
                 P: JSON.parse(localStorage.getItem('availableKatakanaRowsP')) || false,
             },
-            numberOfQuestions: 10
+            numberOfQuestions: 5
         }
     },
 
