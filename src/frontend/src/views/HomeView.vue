@@ -1,7 +1,7 @@
 <template>
   <main>
     <div id="startContainer">
-      <h1> Learn Hiragana and Katakana </h1>
+      <h1> Learn Hiragana and Katakana v0.01</h1>
       <p id="subtitle"> Practicing for the JLPT? Or maybe you are just learning Japanese as a hobby. Either way, this is the best resource for preparing your reading skills! </p>
       <button class="button" @click="goToLearn"> Start Learning Now! </button>
       <img id="japanImage" src="/japan.png" height="124" width="124"/>

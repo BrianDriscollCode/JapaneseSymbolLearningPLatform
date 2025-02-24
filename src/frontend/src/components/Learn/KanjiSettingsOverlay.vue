@@ -3,7 +3,7 @@
         <span id="xButton" @click="$emit('exit')"> x </span>
         <p id="description"> Choose which characters you want to be tested on! </p>
         <div id="chartWrapper">
-            <p> IN DEVELOPMENT </p>
+            <h2> IN DEVELOPMENT - There are 2000 Kanji characters to be considered fluent when reading Japanese. We plan to cover those and more! </h2>
         </div>
     </div>
 </template>

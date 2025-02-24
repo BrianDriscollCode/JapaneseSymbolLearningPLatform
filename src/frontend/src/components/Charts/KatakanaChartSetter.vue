@@ -29,6 +29,7 @@
                             :value="item.row"
                             v-model="myData[item.row]"
                             @change="toggleRow(item.row)"
+                            :disabled="isPaidRow(item.row) && !account.subscription || !account.status" 
                         />
                     </td>
 
@@ -39,28 +40,28 @@
                     <!-- list of characters - logic prints the object data with exceptions for 'u' and 'o' columns -->
 
                     <!-- a -->
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-if="item.characters?.[0]?.character"> {{ item.characters[0].column == 'a' ? item.characters[0].character : ' ' }} </td>
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else> </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-if="item.characters?.[0]?.character"> {{ item.characters[0].column == 'a' ? item.characters[0].character : ' ' }} </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-else> </td>
 
                     <!-- i -->
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-if="item.characters?.[1]?.character"> {{ item.characters[1].column == 'i' ? item.characters[1].character : ' ' }} </td>
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else> </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-if="item.characters?.[1]?.character"> {{ item.characters[1].column == 'i' ? item.characters[1].character : ' ' }} </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-else> </td>
 
                     <!-- u -->
                     <!-- For exceptions of 'u' column -->
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-if="item.characters?.[2]?.character"> {{ item.characters[2].column == 'u' ? item.characters[2].character : item.characters[1].character }} </td> 
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else> </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-if="item.characters?.[2]?.character"> {{ item.characters[2].column == 'u' ? item.characters[2].character : item.characters[1].character }} </td> 
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-else> </td>
 
                     <!-- e -->
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-if="item.characters?.[3]?.character"> {{ item.characters[3].column == 'e' ? item.characters[3].character : ' ' }} </td>
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else> </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-if="item.characters?.[3]?.character"> {{ item.characters[3].column == 'e' ? item.characters[3].character : ' ' }} </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-else> </td>
                     
                     <!-- o -->
                     <!-- For exceptions of 'o' column -->
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-if="item.characters?.[4]?.character"> {{ item.characters[4].column == 'o' ? item.characters[4].character : 'f' }} </td>
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else-if="item.characters[2]?.character"> {{ item.characters[2].character }}</td>
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else-if="item.characters[1]?.character"> {{ item.characters[1].character }}</td>
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else> </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-if="item.characters?.[4]?.character"> {{ item.characters[4].column == 'o' ? item.characters[4].character : 'f' }} </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-else-if="item.characters[2]?.character"> {{ item.characters[2].character }}</td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-else-if="item.characters[1]?.character"> {{ item.characters[1].character }}</td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-else> </td>
                 </tr>
             </tbody>
 
@@ -90,6 +91,7 @@
                             :value="item.row"
                             v-model="myData[item.row]"
                             @change="toggleRow(item.row)"
+                            :disabled="isPaidRow(item.row) && !account.subscription || !account.status" 
                         />
                     </td>
 
@@ -100,34 +102,36 @@
                     <!-- list of characters - logic prints the object data with exceptions for 'u' and 'o' columns -->
 
                     <!-- a -->
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-if="item.characters?.[0]?.character"> {{ item.characters[0].column == 'a' ? item.characters[0].character : ' ' }} </td>
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else> </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-if="item.characters?.[0]?.character"> {{ item.characters[0].column == 'a' ? item.characters[0].character : ' ' }} </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-else> </td>
 
                     <!-- i -->
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-if="item.characters?.[1]?.character"> {{ item.characters[1].column == 'i' ? item.characters[1].character : ' ' }} </td>
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else> </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-if="item.characters?.[1]?.character"> {{ item.characters[1].column == 'i' ? item.characters[1].character : ' ' }} </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-else> </td>
 
                     <!-- u -->
                     <!-- For exceptions of 'u' column -->
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-if="item.characters?.[2]?.character"> {{ item.characters[2].column == 'u' ? item.characters[2].character : item.characters[1].character }} </td> 
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else> </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-if="item.characters?.[2]?.character"> {{ item.characters[2].column == 'u' ? item.characters[2].character : item.characters[1].character }} </td> 
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-else> </td>
 
                     <!-- e -->
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-if="item.characters?.[3]?.character"> {{ item.characters[3].column == 'e' ? item.characters[3].character : ' ' }} </td>
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else> </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-if="item.characters?.[3]?.character"> {{ item.characters[3].column == 'e' ? item.characters[3].character : ' ' }} </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-else> </td>
                     
                     <!-- o -->
                     <!-- For exceptions of 'o' column -->
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-if="item.characters?.[4]?.character"> {{ item.characters[4].column == 'o' ? item.characters[4].character : 'f' }} </td>
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else-if="item.characters[2]?.character"> {{ item.characters[2].character }}</td>
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else-if="item.characters[1]?.character"> {{ item.characters[1].character }}</td>
-                    <td :id="[myData[item.row] ? 'cellFilled': 'cellRow']" v-else> </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-if="item.characters?.[4]?.character"> {{ item.characters[4].column == 'o' ? item.characters[4].character : 'f' }} </td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-else-if="item.characters[2]?.character"> {{ item.characters[2].character }}</td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-else-if="item.characters[1]?.character"> {{ item.characters[1].character }}</td>
+                    <td :id="getCellStyle(myData[item.row], item.row)" v-else> </td>
                 </tr>
             </tbody>
 
         </table>
 
         </div>
+        <p v-if="!account.status"> Log in to unlock more characters </p>
+        <p v-else-if="account.status && !account.subscription"> To unlock more characters requires a subscription. </p>
     </div>
 </template>
 
@@ -135,8 +139,10 @@
 import KatakanaChart from "@/components/Charts/KatakanaChart.json";
 import { reactive, watchEffect } from "vue";
 import { useLearnSettingsStore } from "@/stores/LearnSettings";
+import { useAccountStore } from "@/stores/account";
 
 const learningSettings = useLearnSettingsStore();
+const account = useAccountStore();
 
 const random = reactive({
     selectedRow: null,
@@ -168,6 +174,30 @@ function toggleRow(row) {
 }
 
 const isValidRow = (row) => !['G', 'Z', 'D', 'B', 'P'].includes(row);
+
+// greys out rows that only paid customers can use
+const isPaidRow = (row) => ['N', 'T', 'H','M', 'Y', 'R', 'W', 'NN', 'G', 'Z', 'D', 'B', 'P'].includes(row);
+
+const getCellStyle = (status, row) => 
+{
+    console.log("getCellStyle: ", status, row);
+
+    const viableRow = isPaidRow(row);
+
+    if (!account.status || viableRow && !account.subscription)
+    {
+        return 'cellOff'
+    }
+
+    if (status)
+    {
+        return 'cellFilled';
+    }
+    else
+    {
+        return 'cellRow';
+    }
+}
 
 watchEffect(() => {
     console.log(learningSettings.availableKatakanaRows);
@@ -203,6 +233,11 @@ watchEffect(() => {
 #cellFilled
 {
     background-color: #ffc251; 
+}
+
+#cellOff
+{
+    background-color: #929292; 
 }
 
 #chart td, #chart th {
