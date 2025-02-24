@@ -17,10 +17,12 @@ const route = useRoute();
 const navigablePage = ref(false);
 const account = useAccountStore();
 
+// Remove NavBar from included pages
 watchEffect(() => {
-  navigablePage.value = ["home", "learn", "login", "accountViewManager"].includes(route.name);
+  navigablePage.value = !["signup"].includes(route.name);
 });
 
+// Automatically find session if available with retry
 const initSession = async (retries = 3, delay = 2000) => 
 {
   try 
@@ -42,7 +44,6 @@ const initSession = async (retries = 3, delay = 2000) =>
     }
 
     console.log("Found session:");
-    //console.log(session);
 
     const { id } = session.user;
 

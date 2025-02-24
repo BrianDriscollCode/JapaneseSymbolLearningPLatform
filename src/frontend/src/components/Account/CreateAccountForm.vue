@@ -59,7 +59,12 @@ const createAccount = async () =>
 
     const { data, error } = await supabase.auth.signUp({
         email: loginCredentials.email,
-        password: loginCredentials.password
+        password: loginCredentials.password,
+        options: {
+			data: {
+				first_name: loginCredentials.name
+			}
+		}
     });
     
     if (error)

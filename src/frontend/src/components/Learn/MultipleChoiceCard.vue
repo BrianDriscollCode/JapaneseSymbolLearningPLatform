@@ -76,7 +76,6 @@ const submitAnswer = () =>
 <style scoped>
 #card 
 {
-    width: 300px;
     height: 225px;
     border-radius: 1em;
     background-color: rgb(255, 255, 255);
