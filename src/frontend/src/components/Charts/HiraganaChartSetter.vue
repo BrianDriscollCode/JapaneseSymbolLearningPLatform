@@ -4,15 +4,18 @@
             <h2> Hiragana </h2>
         </div>
         <table id="chart">
-            <thead>
-                <th id="noStyleTableCell">  </th>
-                <th id="noStyleTableCell">  </th>
-                <th id="noStyleTableCell"> a </th> 
-                <th id="noStyleTableCell"> i </th>
-                <th id="noStyleTableCell"> u </th>
-                <th id="noStyleTableCell"> e </th>
-                <th id="noStyleTableCell"> o </th>
-            </thead>
+            <tbody>
+                <tr>
+                    <th id="noStyleTableCell">  </th>
+                    <th id="noStyleTableCell">  </th>
+                    <th id="noStyleTableCell"> a </th> 
+                    <th id="noStyleTableCell"> i </th>
+                    <th id="noStyleTableCell"> u </th>
+                    <th id="noStyleTableCell"> e </th>
+                    <th id="noStyleTableCell"> o </th>
+                </tr>
+            </tbody>
+       
             <tbody v-for="item in HiraganaChart.rows">
                 <tr>
 
@@ -65,7 +68,7 @@
 
 <script setup>
 import HiraganaChart from "@/components/Charts/HiraganaChart.json";
-import { reactive, onMounted, watchEffect } from "vue";
+import { reactive, watchEffect } from "vue";
 import { useLearnSettingsStore } from "@/stores/LearnSettings";
 
 const learningSettings = useLearnSettingsStore();

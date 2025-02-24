@@ -29,13 +29,20 @@
                 :answer3="question.answer3"
                 :answer4="question.answer4"
                 :correctLine="question.correctLine"
+                :questionNumber="count.amount"
+                :questionMax="count.max"
                 v-if="question.displayQuestion"
                 @submit="listenForSubmit"
             />
 
+            <FinishSession
+                :numberCorrect="count.correct"
+                :maxQuestions="count.max" 
+                v-else
+            />
+
             <div id="arrowContainer"> 
-                <div class="arrowButton"> <img src="/icons8-arrow-48.png" id="flipImg"/> </div>
-                <div class="arrowButton"> <img src="/icons8-arrow-48.png"/> </div>
+
             </div>
         </div>
     </div>
@@ -43,6 +50,7 @@
 
 <script setup>
 import MultipleChoiceCardRomaji from '@/components/Learn/MultipleChoiceCardRomaji.vue';
+import FinishSession from "@/components/Learn/FinishSession.vue"
 import SettingsOverlay from '@/components/Learn/SettingsOverlay.vue';
 import { reactive, onMounted } from 'vue';
 import { useLearnSettingsStore } from '@/stores/LearnSettings';
@@ -52,18 +60,40 @@ import KatakanaChart from "@/components/Charts/KatakanaChart.json";
 
 const learnSettings = useLearnSettingsStore();
 
+const count = reactive({
+    amount: 1,
+    max: 3,
+    correct: 0
+})
+
+
 let answerArray = [];
 
-const listenForSubmit = (response) =>
+const listenForSubmit = (answer) =>
 {
-    console.log(response);
-    answerArray.push(response);
-    for (const res of answerArray)
+    answerArray.push(answer);
+
+    count.amount += 1;
+    
+    if (answer.response)
     {
-        console.log(res);
+        count.correct += 1;
     }
 
-    createQuestion();
+    if (count.amount <= count.max)
+    {
+        createQuestion();
+    }
+    else
+    {
+        for (let i = 0; i < answerArray.length; i++)
+        {
+            console.log("res: ", answerArray[i]);
+        }
+        console.log(answerArray);
+        question.displayQuestion = false;
+    }
+    
 }
 
 onMounted(() => {
@@ -351,7 +381,7 @@ const exitSettings = () =>
     display: flex;
     justify-content:space-between;
     flex-direction: row;
-    margin-top: 1em;
+    height: 100px;
 }
 
 .arrowButton
