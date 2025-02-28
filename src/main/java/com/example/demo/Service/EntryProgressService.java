@@ -20,12 +20,12 @@ public class EntryProgressService {
 
     public void insertEntries(List<Entry> entries, User user)
     {
-        System.out.println(user.getName() + " : " + user.getUserID());
+        System.out.println(user.getName() + " : " + user.getId());
         List<EntryProgress> dbEntries;
 
         try
         {
-            dbEntries = entryProgressRepository.findByUserId(user.getUserID());
+            dbEntries = entryProgressRepository.findByUserId(user);
         }
         catch(Exception error)
         {

@@ -4,26 +4,30 @@ import jakarta.persistence.*;
 
 import java.util.UUID;
 
+import jakarta.persistence.*;
+import java.util.UUID;
+
 @Entity
 @Table(name = "Users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userID;
+    private Long id;  // Matches method getId()
 
-    @Column(name = "uuid")
+    @Column(name = "uuid", unique = true, nullable = false)
     private UUID uuid;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    public Long getUserID() { return this.userID; }
+    // Getters and Setters
+    public Long getId() { return this.id; } // Correct method name
 
-    public void setUUID(UUID uuid) { this.uuid = uuid; }
-    public UUID getUUID() { return this.uuid; }
+    public void setUuid(UUID uuid) { this.uuid = uuid; }
+    public UUID getUuid() { return this.uuid; }
 
     public void setName(String name) { this.name = name; }
     public String getName() { return this.name; }
