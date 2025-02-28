@@ -74,9 +74,44 @@ export const useLearnSettingsStore = defineStore('LearnSettings', {
             if (this.availableRows[row] !== undefined) {
                 this.availableRows[row] = value;
 
-                localStorage.setItem(`availableHiraganarows${row}`, this.availableHiraganaRows[row]);
+                localStorage.setItem(`availableHiraganaRows${row}`, this.availableHiraganaRows[row]);
             }
         },
+
+        // If no active rows, activate default A, K, S Hiragana rows
+        checkForActiveRow()
+        {
+            let kanaCheck = false;
+
+            for (let row in this.availableHiraganaRows)
+            {
+                if (this.availableHiraganaRows[row] == true)
+                {
+                    return;
+                }
+            }
+
+            for (let row in this.availableKatakanaRows)
+                {
+                    if (this.availableKatakanaRows[row] == true)
+                    {
+                        return;
+                    }
+                }
+
+            if (!kanaCheck)
+            {
+                this.availableHiraganaRows.A = true;
+                localStorage.setItem(`availableHiraganaRowsA`, this.availableHiraganaRows.A);
+
+                this.availableHiraganaRows.K = true;
+                localStorage.setItem(`availableHiraganaRowsK`, this.availableHiraganaRows.K);
+
+                this.availableHiraganaRows.S = true;
+                localStorage.setItem(`availableHiraganaRowsS`, this.availableHiraganaRows.S);
+            }
+
+        }
       
     }
 });

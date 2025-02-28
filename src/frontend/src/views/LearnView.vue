@@ -59,6 +59,7 @@ import KanaSettingsOverlay from '@/components/Learn/KanaSettingsOverlay.vue';
 import KanjiSettingsOverlay from '@/components/Learn/KanjiSettingsOverlay.vue';
 import { reactive, onMounted } from 'vue';
 import { useLearnSettingsStore } from '@/stores/LearnSettings';
+import { useAccountStore } from '@/stores/account';
 import HiraganaChart from "@/components/Charts/HiraganaChart.json";
 import KatakanaChart from "@/components/Charts/KatakanaChart.json";
 import { useRouter } from 'vue-router';
@@ -66,6 +67,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const learnSettings = useLearnSettingsStore();
+const account = useAccountStore();
 
 const count = reactive({
     amount: 1,
@@ -93,20 +95,30 @@ const listenForSubmit = (answer) =>
     }
     else
     {
-        for (let i = 0; i < answerArray.length; i++)
-        {
-            console.log("res: ", answerArray[i]);
-        }
-        console.log(answerArray);
         question.displayQuestion = false;
+        submitEntries(answerArray);
     }
-    
+}
+
+const submitEntries = async (answerArray) =>
+{
+    const data = {
+        entries: answerArray,
+        uuid: account.uuid
+    }
+
+    const res = await fetch("/api/entryProgress/insert", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+
+    console.log(res);
 }
 
 onMounted(() => {
-    console.log("LearnView Hiragana Rows: ", learnSettings.availableHiraganaRows);
-    console.log("LearnView Katakana Rows: ", learnSettings.availableKatakanaRows);
-    console.log("Learnview Hiragana Chart: ", HiraganaChart.rows);
     createQuestion();
 });
 
@@ -124,7 +136,6 @@ const question = reactive({
 const createQuestion = () =>
 {
     const availableCharacters = getAvailableCharacters();
-    console.log("Available Characters: ", availableCharacters);
     let size = availableCharacters.size - 1;
 
     // generate possible answers
@@ -148,24 +159,16 @@ const createQuestion = () =>
 
     question.displayQuestion = false;
     question.displayQuestion = true;
-
-    console.log(question.answer1);
-    console.log(question.answer2);
-    console.log(question.answer3);
-    console.log(question.answer4);
 }
 
 const getAvailableCharacters = () => 
 {
     const hiraganaAvailable = isHiraganaTrue();
-    //console.log("hiraganaAvailable: ", hiraganaAvailable);
 
     const katakanaAvailable = isKatakanaTrue();
-    //console.log("katakanaAvailable: ", katakanaAvailable);
 
     let kanaType = getKanaType(hiraganaAvailable, katakanaAvailable);
     question.kana = kanaType;
-    console.log("kanaType: " + kanaType);
 
     if (kanaType == "Hiragana")
     {
@@ -302,6 +305,7 @@ const showKanaSettings = () =>
 
 const exitKanaSettings = () =>
 {
+    learnSettings.checkForActiveRow();
     state.kanaOverlay = false;
 }
 
@@ -323,6 +327,7 @@ const goToInfo = () =>
 const restart = () => 
 {
     count.amount = 1;
+    count.correct = 0;
     question.displayQuestion = true;
 }
 </script>

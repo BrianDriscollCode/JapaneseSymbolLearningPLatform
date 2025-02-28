@@ -1,6 +1,5 @@
 package com.example.demo.Entity;
 
-import com.example.demo.Entity.BaseClass.Entry;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -8,25 +7,77 @@ import java.util.List;
 @Entity
 @Table(name = "EntryProgress")
 public class EntryProgress {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "EntryProgressID")
-    private Long entryProgressID;  // Lowercased first letter for Java naming convention
-
-    @OneToMany(mappedBy = "entryProgress", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Entry> entries;
+    private Long entryProgressID;
 
     @ManyToOne
-    @JoinColumn(name = "userID", nullable = false) // Corrected the column name
-    private User user; // Changed from "users" to "user" (singular)
+    @JoinColumn(name = "userID", nullable = false)
+    private User user;
 
-    @Column(name = "multiplechoicescore", nullable = false)
-    private Integer multipleChoiceScore;
+    @Column(name = "kanaType", nullable = false)
+    private String kanaType;
 
-    @Column(name = "shortanswerscore", nullable = false)
-    private Integer shortAnswerScore;
+    @Column(name = "romaji", nullable = false)
+    private String romaji;
 
-    @Column(name = "entrytype", nullable = false)
-    private String entryType;
+    @Column(name = "score", nullable = false)
+    private Long score;
+
+    @Column(name = "rowGroup", nullable = false)
+    private String rowGroup;
+
+    // Getters and Setters
+
+    public Long getEntryProgressID() {
+        return entryProgressID;
+    }
+
+    public void setEntryProgressID(Long entryProgressID) {
+        this.entryProgressID = entryProgressID;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getKanaType() {
+        return kanaType;
+    }
+
+    public void setKanaType(String kanaType) {
+        this.kanaType = kanaType;
+    }
+
+    public String getRomaji() {
+        return romaji;
+    }
+
+    public void setRomaji(String romaji) {
+        this.romaji = romaji;
+    }
+
+    public Long getScore() {
+        return score;
+    }
+
+    public void setScore(Long score) {
+        this.score = score;
+    }
+
+    public String getRowGroup() {
+        return rowGroup;
+    }
+
+    public void setRowGroup(String rowGroup) {
+        this.rowGroup = rowGroup;
+    }
 }
+
 

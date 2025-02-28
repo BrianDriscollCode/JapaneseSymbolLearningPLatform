@@ -12,10 +12,12 @@ import { RouterView, useRoute } from 'vue-router'
 import WebNavigation from './components/WebNavigation.vue';
 import { supabase } from './clients/supabase';
 import { useAccountStore } from './stores/account';
+import { useLearnSettingsStore } from '@/stores/LearnSettings';
 
 const route = useRoute();
 const navigablePage = ref(false);
 const account = useAccountStore();
+const learnSettings = useLearnSettingsStore();
 
 // Remove NavBar from included pages
 watchEffect(() => {
@@ -74,9 +76,15 @@ const initSession = async (retries = 3, delay = 2000) =>
   }
 };
 
+// Check that there is at least 1 valid row
+const initializeKanaStore = () =>
+{
+    learnSettings.checkForActiveRow();
+}
 
 onMounted(() => {
   initSession();
+  initializeKanaStore();
 })
 
 </script>
