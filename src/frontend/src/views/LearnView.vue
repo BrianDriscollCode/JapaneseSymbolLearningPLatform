@@ -31,6 +31,7 @@
                 :answer2="question.answer2"
                 :answer3="question.answer3"
                 :answer4="question.answer4"
+                :row="question.row"
                 :correctLine="question.correctLine"
                 :questionNumber="count.amount"
                 :questionMax="count.max"
@@ -80,6 +81,7 @@ let answerArray = [];
 
 const listenForSubmit = (answer) =>
 {
+    console.log(answer);
     answerArray.push(answer);
 
     count.amount += 1;
@@ -115,7 +117,7 @@ const submitEntries = async (answerArray) =>
         body: JSON.stringify(data)
     });
 
-    console.log(res);
+    console.log(JSON.stringify(data));
 }
 
 onMounted(() => {
@@ -129,6 +131,7 @@ const question = reactive({
     answer2: "",
     answer3: "",
     answer4: "",
+    row: "",
     correctLine: null,
     displayQuestion: false
 });
@@ -152,7 +155,8 @@ const createQuestion = () =>
     question.answer2 = availableCharacters.get(answers[1]).character;
     question.answer3 = availableCharacters.get(answers[2]).character;
     question.answer4 = availableCharacters.get(answers[3]).character;
-
+    console.log("****HERE NOW ****" , availableCharacters.get(answers[3]));
+    question.row = availableCharacters.get(answers[rightAnswer]).row;
     question.correctLine = rightAnswer;
     question.romaji = availableCharacters.get(answers[rightAnswer]).romaji;
     
@@ -182,12 +186,17 @@ const getAvailableCharacters = () =>
             {
                 for (let n = 0; n < HiraganaChart.rows[i].characters.length; n++)
                 {
+
+                    console.log("Romaji: ", HiraganaChart.rows[i].characters[n].romaji);
+                    console.log("Row: ", HiraganaChart.rows[i].row);
                     hiraganaRows.set(
                         positionNumber,
                         // {character, romaji} - object
                         {
+                            row:  HiraganaChart.rows[i].row,
                             character: HiraganaChart.rows[i].characters[n].character,
-                            romaji: HiraganaChart.rows[i].characters[n].romaji
+                            romaji: HiraganaChart.rows[i].characters[n].romaji,
+                            column: HiraganaChart.rows[i].characters[n].column
                         }
                     )
 
@@ -214,8 +223,10 @@ const getAvailableCharacters = () =>
                         positionNumber,
                         // {character, romaji} - object
                         {
+                            row: KatakanaChart.row[i].row,
                             character: KatakanaChart.rows[i].characters[n].character,
-                            romaji: KatakanaChart.rows[i].characters[n].romaji
+                            romaji: KatakanaChart.rows[i].characters[n].romaji,
+                            column: KatakanaChart.rows[i].characters[n].column
                         }
                     )
 

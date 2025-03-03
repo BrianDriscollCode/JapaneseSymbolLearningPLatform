@@ -29,8 +29,10 @@ public class EntryProgressController {
     @PostMapping("/insert")
     public ResponseEntity<String> insertEntries(@RequestBody EntryProgressRequestDTO entryRequest)
     {
+        System.out.println("TEST TEST TEST INSERT");
         //System.out.println("Entries: " + entryRequest.getEntries());
         List<Entry> entries = entryRequest.getEntries();
+        System.out.println(entryRequest.getUuid());
         User user = accountService.getUser(entryRequest.getUuid());
         //System.out.println(user);
         entryProgressService.insertEntries(entries, user);

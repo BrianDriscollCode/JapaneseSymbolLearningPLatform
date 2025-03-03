@@ -26,8 +26,8 @@ public class EntryProgress {
     @Column(name = "score", nullable = false)
     private Long score;
 
-    @Column(name = "rowGroup", nullable = false)
-    private String rowGroup;
+    @Column(name = "row", nullable = false)
+    private String row;
 
     // Getters and Setters
 
@@ -71,12 +71,12 @@ public class EntryProgress {
         this.score = score;
     }
 
-    public String getRowGroup() {
-        return rowGroup;
+    public String getRow() {
+        return row;
     }
 
-    public void setRowGroup(String rowGroup) {
-        this.rowGroup = rowGroup;
+    public void setRow(String row) {
+        this.row = row;
     }
 }
 

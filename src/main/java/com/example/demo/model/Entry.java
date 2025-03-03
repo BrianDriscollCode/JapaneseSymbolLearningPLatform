@@ -1,16 +1,17 @@
 package com.example.demo.model;
 
 public class Entry {
-    private String response;
+    private boolean response;
     private String romaji;
     private String type;
+    private String row;
 
     // Getters and Setters
-    public String getResponse() {
+    public boolean getResponse() {
         return response;
     }
 
-    public void setResponse(String response) {
+    public void setResponse(boolean response) {
         this.response = response;
     }
 
@@ -28,5 +29,13 @@ public class Entry {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getRow() {
+        return row;
+    }
+
+    public void setRow(String row) {
+        this.row = row;
     }
 }
