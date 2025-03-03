@@ -116,7 +116,6 @@ public class EntryProgressService {
 
     public void insertEntries(List<Entry> entries, User user)
     {
-        System.out.println(user.getName() + " : " + user.getUserID());
         List<EntryProgress> dbEntries = new ArrayList<>();
 
         try
