@@ -20,7 +20,7 @@ public class AccountService {
     public void createUser(UUID uuid, String name, String email)
     {
         User user = new User();
-        user.setUUID(uuid);
+        user.setUuid(uuid);
         user.setName(name);
         user.setEmail(email);
 

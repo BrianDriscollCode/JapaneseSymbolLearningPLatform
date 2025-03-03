@@ -34,7 +34,7 @@ public class EntryProgressController {
         List<Entry> entries = entryRequest.getEntries();
         System.out.println(entryRequest.getUuid());
         User user = accountService.getUser(entryRequest.getUuid());
-        //System.out.println(user);
+        //System.out.println(user)
         entryProgressService.insertEntries(entries, user);
 
         return ResponseEntity.ok("Success");
