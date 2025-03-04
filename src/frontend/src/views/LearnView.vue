@@ -104,20 +104,28 @@ const listenForSubmit = (answer) =>
 
 const submitEntries = async (answerArray) =>
 {
-    const data = {
-        entries: answerArray,
-        uuid: account.uuid
+    if (account.status)
+    {
+        const data = 
+        {
+            entries: answerArray,
+            uuid: account.uuid
+        }
+
+        const res = await fetch("/api/entryProgress/insert", 
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        console.log(JSON.stringify(data));
     }
 
-    const res = await fetch("/api/entryProgress/insert", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    });
-
-    console.log(JSON.stringify(data));
+    answerArray = [];
+    
 }
 
 onMounted(() => {

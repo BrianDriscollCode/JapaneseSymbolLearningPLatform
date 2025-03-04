@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim as build
 WORKDIR /app
 
 # Copy the JAR file to the container
-COPY src/main/target/demo-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY target/demo-0.0.1-SNAPSHOT.jar /app/app.jar
 
 # Copy the static Vue frontend files into the appropriate directory in the container
 COPY src/main/resources/static /app/static
