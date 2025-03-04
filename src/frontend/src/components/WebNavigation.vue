@@ -18,10 +18,10 @@
                 <span class="navLink" v-if="navState.startOpen">Learn</span> 
             </RouterLink>
             
-            <!-- <RouterLink to="/competence" class="navLinkContainer">
+            <RouterLink to="/competence" class="navLinkContainer">
                 <img src="/graph.png" class="navLink"width="25" height="25"/>
                 <span class="navLink" v-if="navState.startOpen">Competence</span>
-            </RouterLink> -->
+            </RouterLink>
             
             <RouterLink to="/login" class="navLinkContainer">
                 <img src="/key.png" class="navLink" width="25" height="25" />
