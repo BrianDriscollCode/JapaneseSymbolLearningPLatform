@@ -14,17 +14,17 @@
             </div>  
 
             <RouterLink to="/learn" class="navLinkContainer">
-                <img src="/book.png" class="navLink" width="25" height="25"/> 
+                <v-icon size="25" class="pl-3 pt-2 pb-3" color="black">mdi-school</v-icon>
                 <span class="navLink" v-if="navState.startOpen">Learn</span> 
             </RouterLink>
             
             <RouterLink to="/competence" class="navLinkContainer">
-                <img src="/graph.png" class="navLink"width="25" height="25"/>
+                <v-icon size="25" class="pl-3 pt-2 pb-3" color="black">mdi-progress-helper</v-icon>
                 <span class="navLink" v-if="navState.startOpen">Competence</span>
             </RouterLink>
             
             <RouterLink to="/login" class="navLinkContainer">
-                <img src="/key.png" class="navLink" width="25" height="25" />
+                <v-icon size="25" class="pl-3 pt-2 pb-3" color="black">mdi-cloud-key-outline</v-icon>
                 <span class="navLink"v-if="navState.startOpen">Login</span>
             </RouterLink>
         </div>
@@ -35,6 +35,7 @@
 import { RouterLink } from 'vue-router';
 import { Vue3Lottie } from 'vue3-lottie';
 import { ref, reactive, onMounted } from 'vue';
+
 
 const lottieAnimation = ref(null);
 
@@ -76,6 +77,7 @@ const onAnimationComplete = () => {
     width: 180px;
     height: 100vh;
     transition: width 0.3s;
+    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.1);
 }
 
 #navClosed
@@ -84,6 +86,7 @@ const onAnimationComplete = () => {
     width: 75px;
     height: 100vh;
     transition: width 0.3s;
+    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.1);
 }
 
 #navWrapper
@@ -126,6 +129,7 @@ const onAnimationComplete = () => {
 
 .navLink
 {
+    margin-left: 0.5em;
     padding: .5em;
     color: black;
 }

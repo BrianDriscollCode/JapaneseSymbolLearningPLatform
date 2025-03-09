@@ -2,16 +2,14 @@ package com.example.demo.Controller;
 
 import com.example.demo.Dto.EntryProgressRequestDTO;
 
+import com.example.demo.Entity.EntryProgress;
 import com.example.demo.Entity.User;
 import com.example.demo.Service.AccountService;
 import com.example.demo.Service.EntryProgressService;
 import com.example.demo.model.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,6 +23,12 @@ public class EntryProgressController {
 
     @Autowired
     EntryProgressService entryProgressService;
+
+    @GetMapping("/get/{uuid}")
+    public List<EntryProgress> getEntries(@PathVariable UUID uuid)
+    {
+        return entryProgressService.getEntries(uuid);
+    }
 
     @PostMapping("/insert")
     public ResponseEntity<String> insertEntries(@RequestBody EntryProgressRequestDTO entryRequest)

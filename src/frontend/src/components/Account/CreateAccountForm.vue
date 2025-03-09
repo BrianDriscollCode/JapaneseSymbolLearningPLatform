@@ -42,9 +42,9 @@ import { reactive } from "vue";
 import { useRouter } from 'vue-router';
 
 const loginCredentials = reactive({
-    email: 'bdriscoll407@gmail.com',
-    password: 'iiiiii777777',
-    name: 'Brian'
+    email: '',
+    password: '',
+    name: ''
 });
 
 const router = useRouter();

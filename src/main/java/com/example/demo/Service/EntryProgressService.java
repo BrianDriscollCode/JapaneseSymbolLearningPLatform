@@ -1,6 +1,7 @@
 package com.example.demo.Service;
 
 import com.example.demo.Dao.EntryProgressRepository;
+import com.example.demo.Dao.UsersRepository;
 import com.example.demo.Entity.EntryProgress;
 import com.example.demo.Entity.User;
 import com.example.demo.model.Entry;
@@ -11,108 +12,18 @@ import java.util.*;
 
 @Service
 public class EntryProgressService {
+
+    @Autowired
+    UsersRepository usersRepository;
+
     @Autowired
     EntryProgressRepository entryProgressRepository;
 
-    //@Autowired
-
-
-//    public void insertEntries(List<Entry> entries, User user)
-//    {
-//        System.out.println(user.getName() + " : " + user.getUserID());
-//        List<EntryProgress> dbEntries = new ArrayList<>();
-//
-//        try
-//        {
-//            dbEntries = entryProgressRepository.findByUser(user);
-//        }
-//        catch(Exception error)
-//        {
-//            System.out.println(error + ": No entries found");
-//        }
-//
-//        if (dbEntries.size() > 0)
-//        {
-//            System.out.println("DB_ENTRIES is not empty");
-//            HashMap<String, List<Entry>> compareMap = new HashMap<>();
-//
-//            for (Entry entry: entries)
-//            {
-//                String romaji = entry.getRomaji();
-//                compareMap.putIfAbsent(romaji, new ArrayList<>());
-//                compareMap.get(romaji).add(entry);
-//            }
-//            for (EntryProgress dbEntry: dbEntries)
-//            {
-//                long points = 0;
-//                String romaji = dbEntry.getRomaji();
-//
-//                if (compareMap.containsKey(romaji))
-//                {
-//                    EntryProgress progressDataObject = dbEntry;
-//
-//                    for (Entry entry: compareMap.get(romaji))
-//                    {
-//                        if (entry.getResponse().equals("true"))
-//                        {
-//                            points += 1;
-//                        }
-//                        else
-//                        {
-//                            points -= 1;
-//                        }
-//                    }
-//                    compareMap.remove(romaji);
-//
-//                    progressDataObject.setScore(progressDataObject.getScore() + points);
-//                    entryProgressRepository.save(progressDataObject);
-//                }
-//            }
-//
-//            List<Entry> mergedList = new ArrayList<>();
-//
-//            for (List<Entry> entryList: compareMap.values())
-//            {
-//                mergedList.addAll(entryList);
-//            }
-//
-//            for (Entry entry: mergedList)
-//            {
-//                EntryProgress progressDataObject = new EntryProgress();
-//                progressDataObject.setUser(user);
-//                progressDataObject.setRomaji(entry.getRomaji());
-//                progressDataObject.setKanaType(entry.getType());
-//                progressDataObject.setRow(entry.getRow());
-//                progressDataObject.setScore(1L);
-//
-//                entryProgressRepository.save(progressDataObject);
-//            }
-//
-//        }
-//        else
-//        {
-//            System.out.println("Inserting entries");
-//            for (Entry entry: entries)
-//            {
-//                EntryProgress progressDataObject = new EntryProgress();
-//                progressDataObject.setUser(user);
-//                progressDataObject.setRomaji(entry.getRomaji());
-//                progressDataObject.setKanaType(entry.getType());
-//                progressDataObject.setRow(entry.getRow());
-//                progressDataObject.setScore(10L);
-//
-//                entryProgressRepository.save(progressDataObject);
-//            }
-//        }
-//
-//
-////        for (Entry entry: entries)
-////        {
-////            System.out.println("entry romaji:" + entry.getRomaji());
-////            System.out.println("entry type:" + entry.getType());
-////            System.out.println("entry res:" + entry.getResponse());
-////        }
-//    }
+    public List<EntryProgress> getEntries(UUID uuid)
+    {
+        User user = usersRepository.findByUuid(uuid);
+        return entryProgressRepository.findByUser(user);
+    }
 
     public void insertEntries(List<Entry> entries, User user)
     {
@@ -137,7 +48,7 @@ public class EntryProgressService {
             compareMap.get(romaji).add(entry);
         }
 
-        // Run is there are no entries
+        // Run if there are no entries
         if (!dbEntries.isEmpty())
         {
             System.out.println("DB_ENTRIES is not empty");
@@ -185,6 +96,7 @@ public class EntryProgressService {
         for (Entry entry : newEntries)
         {
             // Check if the EntryProgress already exists for this romaji (happens if quiz generates duplicate romaji)
+            // *duplicate romaji is intended if a romaji has a question asked multiple times, this just handles that case
             Optional<EntryProgress> existingProgress = entryProgressRepository.findByUserAndRomaji(user, entry.getRomaji());
 
             EntryProgress progressDataObject;

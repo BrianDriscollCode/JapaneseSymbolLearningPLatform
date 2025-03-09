@@ -9,11 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "@mdi/font": "^7.4.47",
     "@supabase/supabase-js": "^2.48.1",
     "pinia": "^2.3.1",
+    "sass": "^1.85.1",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
-    "vue3-lottie": "^3.3.1"
+    "vue3-lottie": "^3.3.1",
+    "vuetify": "^3.7.14"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",

@@ -93,6 +93,7 @@ onMounted(() => {
 #app
 {
   height: 100%;
+  overflow: hidden;
 }
 
 html
@@ -101,6 +102,7 @@ html
   margin: 0;
   font-family: "Gill Sans", sans-serif;
   height: 100%;
+  overflow: hidden;
 }
 
 body
@@ -109,6 +111,7 @@ body
   margin: 0;
   background-color: #f2faef;
   height: 100%;
+  overflow: hidden;
 }
 
 #appContainer
@@ -116,5 +119,6 @@ body
   display: flex;
   flex-direction: row;
   height: 100%;
+  overflow: hidden;
 }
 </style>
