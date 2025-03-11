@@ -68,7 +68,7 @@ const submitAnswer = () => {
     console.log(state.selectedAnswer, state.correctLine + 1);
     const response = state.selectedAnswer === state.correctLine + 1;
     console.log(response ? "Correct!" : "Incorrect!");
-    emit('submit', { romaji: state.romaji, response, type: "Romaji", row: state.row });
+    emit('submit', { romaji: state.romaji, response, type: state.kana, row: state.row });
     state.selectedAnswer = null;
 
     if (state.questionNumber <= state.questionMax)

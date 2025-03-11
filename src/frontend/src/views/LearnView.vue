@@ -231,7 +231,7 @@ const getAvailableCharacters = () =>
                         positionNumber,
                         // {character, romaji} - object
                         {
-                            row: KatakanaChart.row[i].row,
+                            row: KatakanaChart.rows[i].row,
                             character: KatakanaChart.rows[i].characters[n].character,
                             romaji: KatakanaChart.rows[i].characters[n].romaji,
                             column: KatakanaChart.rows[i].characters[n].column

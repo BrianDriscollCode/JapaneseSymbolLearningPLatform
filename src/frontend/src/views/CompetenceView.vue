@@ -34,7 +34,7 @@
                 :kana4="item.characters?.[3]?.character"
                 :romaji5="item.characters?.[4]?.romaji"
                 :kana5="item.characters?.[4]?.character"
-                :score=score[item.row]
+                :score=hiraganaScore[item.row]
             />
         </div>
         
@@ -55,7 +55,7 @@ const chart = reactive({
 
 const account = useAccountStore();
 
-const score = reactive({
+const hiraganaScore = reactive({
     A: 0,
     K: 0,
     S: 0,
@@ -99,7 +99,8 @@ const getEntries = async () =>
 
     for (const [key, value] of Object.entries(res)) 
     {
-        score[value.row] += value.score
+        console.log(value);
+        hiraganaScore[value.row] += value.score
     }
 
     state.loading = false
@@ -108,7 +109,6 @@ const getEntries = async () =>
     // {
     //     console.log(key + ": " + value);
     // }
-
 }
 
 
