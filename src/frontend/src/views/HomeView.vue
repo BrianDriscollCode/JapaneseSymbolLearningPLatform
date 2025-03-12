@@ -50,6 +50,8 @@ h1
   font-size: 1.3em;
   text-align: center;
   color: #1d3568;
+  margin-top: .5em;
+  margin-bottom: 1em;
 }
 
 .button {

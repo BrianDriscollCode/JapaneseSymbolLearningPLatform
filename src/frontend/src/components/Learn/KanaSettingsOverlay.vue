@@ -54,6 +54,7 @@ import KatakanaChartSetter from '../Charts/KatakanaChartSetter.vue';
     display: flex;
     justify-content: center;
     flex-direction: row;
+    margin-top: 2em;
 }
 
 #hiraganaChart
