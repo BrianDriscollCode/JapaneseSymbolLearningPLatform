@@ -21,8 +21,6 @@
         <h1 v-if="state.loading"> LOADING </h1>
         <div v-for="item in chart.current.rows" v-else>
             <!-- Gets row -->
-
-            <p> {{ chart.type }}</p>
             <DisplayKanaBar 
                 :romaji1="item.characters?.[0]?.romaji"
                 :kana1="item.characters?.[0]?.character"
@@ -34,7 +32,7 @@
                 :kana4="item.characters?.[3]?.character"
                 :romaji5="item.characters?.[4]?.romaji"
                 :kana5="item.characters?.[4]?.character"
-                :score=hiraganaScore[item.row]
+                :score=chart.scores[item.row]
             />
         </div>
         
@@ -48,10 +46,6 @@ import KatakanaChart from "@/components/Charts/KatakanaChart.json"
 import { reactive, onMounted } from 'vue';
 import { useAccountStore } from '@/stores/account';
 
-const chart = reactive({
-    type: 'Hiragana',
-    current: HiraganaChart
-});
 
 const account = useAccountStore();
 
@@ -74,6 +68,31 @@ const hiraganaScore = reactive({
     P: 0
 });
 
+const katakanaScore = reactive({
+    A: 0,
+    K: 0,
+    S: 0,
+    T: 0,
+    N: 0,
+    H: 0,
+    M: 0,
+    Y: 0,
+    R: 0,
+    W: 0,
+    NN: 0,
+    G: 0,
+    Z: 0,
+    D: 0,
+    B: 0,
+    P: 0
+});
+
+const chart = reactive({
+    type: 'Hiragana',
+    current: HiraganaChart,
+    scores: hiraganaScore
+});
+
 const state = reactive({
     loading: true
 })
@@ -84,9 +103,11 @@ const changeChart = (newType) => {
     if (newType === "Hiragana") {
         chart.type = "Hiragana";
         chart.current = HiraganaChart;
+        chart.scores = hiraganaScore;
     } else {
         chart.type = "Katakana";
         chart.current = KatakanaChart;
+        chart.scores = katakanaScore;
     }
 
     console.log(chart.type);
@@ -97,10 +118,21 @@ const getEntries = async () =>
     const data = await fetch(`/api/entryProgress/get/${account.uuid}`)
     const res = await data.json();
 
+    console.log(res)
+
     for (const [key, value] of Object.entries(res)) 
     {
         console.log(value);
-        hiraganaScore[value.row] += value.score
+
+        if (value.kanaType == "Hiragana")
+        {
+            hiraganaScore[value.row] += value.score
+        }
+        else
+        {
+            katakanaScore[value.row] += value.score
+        }
+        
     }
 
     state.loading = false

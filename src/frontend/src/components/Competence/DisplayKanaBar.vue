@@ -113,24 +113,21 @@ const calculateWeightedScore = () =>
 
 onMounted(() => {
     calculateWeightedScore();  // Call the function when the component is mounted
+    
 })
 
 watchEffect(() => {
     state.romaji1 = props.romaji1;
     state.kana1 = props.kana1;
-    state.score1 = props.score1;
     state.romaji2 = props.romaji2;
     state.kana2 = props.kana2;
-    state.score2 = props.score2;
     state.romaji3 = props.romaji3;
     state.kana3 = props.kana3;
-    state.score3 = props.score3;
     state.romaji4 = props.romaji4;
     state.kana4 = props.kana4;
-    state.score4 = props.score4;
     state.romaji5 = props.romaji5;
     state.kana5 = props.kana5;
-    state.score5 = props.score5;
+    state.score = props.score;
 });
 
 </script>
