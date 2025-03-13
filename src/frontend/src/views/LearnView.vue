@@ -7,9 +7,6 @@
             </div>
 
             <div id="settingsContainer">
-                <!-- <button @click="showSettings" id="settingsButton"> Settings </button>
-                <button @click="showSettings" id="settingsButton"> Settings </button>
-                <button @click="showSettings" id="settingsButton"> Settings </button> -->
                 <div class="topButton" @click="showKanaSettings">
                     <img src="/LearnIcons/icons8-japanese-50.png" width="50" height="50" />
                     <p class="buttonText"> Kana </p>
@@ -67,21 +64,42 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
+const goToInfo = () =>
+{
+    router.push("/");
+}
+
+// Store for picking hiragana and katakana rows
 const learnSettings = useLearnSettingsStore();
 const account = useAccountStore();
 
+// Manages question count
 const count = reactive({
     amount: 1,
     max: learnSettings.numberOfQuestions,
     correct: 0
 })
 
+// Restarts set of questions
+const restart = () => 
+{
+    count.amount = 1;
+    count.correct = 0;
+    question.displayQuestion = true;
+}
 
 let answerArray = [];
 
+// ******************************
+// * Function: listenForSubmit
+// * Child functions: createQuestion, submitEntries
+// *
+// * Submit bundle of entries (answerArray) after set of questions is finished
+// *
+// *
+// ******************************
 const listenForSubmit = (answer) =>
 {
-    console.log(answer);
     answerArray.push(answer);
 
     count.amount += 1;
@@ -105,7 +123,7 @@ const listenForSubmit = (answer) =>
 // ******************************
 // *
 // *
-// Submit bundle of entries after set of questions is finished
+// * Submit bundle of entries after set of questions is finished
 // *
 // * @data: object{ entries: array of objects, uuid: string}
 // * entries: [{ romaji: string, response: boolean, type: string, row: string }]
@@ -153,12 +171,24 @@ const question = reactive({
     displayQuestion: false
 });
 
+// ******************************
+// *
+// * Function: CreateQuestion
+// * Child Functions: getAvailableCharacters
+// *
+// * 1. Create question using myriad of functions for deciding kanatype and which kana in a hiragana or Katakana chart
+// * 2. Use random number generation to populate possible answers and then pick one as the right answer
+// * 3. Set question state for populating multipleChoiceCard then reset card
+// *
+// *
+// ******************************
+
 const createQuestion = () =>
 {
     // ******************************
+    // * Function: getAvailableCharacters
     // *
-    // *
-    // Get available characters from either Hiragana or Katakana rows
+    // * Get available characters from either Hiragana or Katakana rows
     // *
     // * @availableCharacters type: map of objects
     // * Object: { key: number, value: { character: string, column: string, romaji: string, row: string }}
@@ -171,7 +201,7 @@ const createQuestion = () =>
     // ******************************
     // *
     // *
-    // Choose possible answers to multiple choise question using random number generation
+    // * Choose possible answers to multiple choise question using random number generation
     // *
     // * @answers: set
     // * Set: {0: number, 1: number, 2: number, 3: number}
@@ -202,13 +232,25 @@ const createQuestion = () =>
     question.displayQuestion = true;
 }
 
+// ******************************
+// * Function: getAvailableCahracters
+// * Parent Function: createQuestion
+// * Child Functions: isHiraganaTrue, isKatakanaTrue, getKanaType
+// *
+// * Get available characters from either Hiragana or Katakana rows
+// *
+// * @availableCharacters type: map of objects
+// * Object: { key: number, value: { character: string, column: string, romaji: string, row: string }}
+// *
+// ******************************
+
 const getAvailableCharacters = () => 
 {
     // ******************************
     // *
     // *
-    // Checks the learnSettings store to see if characters
-    // for Hiragana or Katakana are included.
+    // * Checks the learnSettings store to see if characters
+    // * for Hiragana or Katakana are included.
     // *
     // * @hiraganaAvailable: boolean
     // * @katakanaAvailable: boolean
@@ -220,9 +262,9 @@ const getAvailableCharacters = () =>
     // ******************************
     // *
     // *
-    // Using random number generation, define whether to
-    // use the Hiragana or Katakana chart and assigns 
-    // the value to question state
+    // * Using random number generation, define whether to
+    // * use the Hiragana or Katakana chart and assigns 
+    // * the value to question state
     // *
     // * @kanaType: string
     // * Values: "Hiragana" or "Katakana"
@@ -234,7 +276,7 @@ const getAvailableCharacters = () =>
     // ******************************
     // *
     // *
-    // Depending on kanaType, will create a hashmap of available characters
+    // * Depending on kanaType, will create a hashmap of available characters
     // *
     // * @returnType: Map of Objects
     // * Object: { key: number, value: { character: string, column: string, romaji: string, row: string }}
@@ -367,6 +409,8 @@ const getKanaType = (hiraganaAvailable, katakanaAvailable) =>
     return kanaType;
 }
 
+// ******** Below are all functions and state for component render logic
+
 const state = reactive({
     kanaOverlay: false,
     kanjiOverlay: false,
@@ -391,19 +435,6 @@ const showKanjiSettings = () =>
 const exitKanjiSettings = () =>
 {
     state.kanjiOverlay = false;
-}
-
-const goToInfo = () =>
-{
-    router.push("/");
-}
-
-// Restarts set of questions
-const restart = () => 
-{
-    count.amount = 1;
-    count.correct = 0;
-    question.displayQuestion = true;
 }
 </script>
 
