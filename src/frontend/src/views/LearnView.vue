@@ -92,11 +92,13 @@ let answerArray = [];
 
 // ******************************
 // * Function: listenForSubmit
-// * Child functions: createQuestion, submitEntries
+// * Calls: createQuestion, submitEntries
 // *
-// * Submit bundle of entries (answerArray) after set of questions is finished
+// * Handles user answer submission by storing the answer, 
+// * updating the count, and determining whether to generate 
+// * a new question or submit all collected answers to the server.
 // *
-// *
+// * @param {object} answer - The user's submitted answer.
 // ******************************
 const listenForSubmit = (answer) =>
 {
@@ -172,28 +174,12 @@ const question = reactive({
 });
 
 // ******************************
-// *
-// * Function: CreateQuestion
-// * Child Functions: getAvailableCharacters
-// *
-// * 1. Create question using myriad of functions for deciding kanatype and which kana in a hiragana or Katakana chart
-// * 2. Use random number generation to populate possible answers and then pick one as the right answer
-// * 3. Set question state for populating multipleChoiceCard then reset card
-// *
-// *
+// * Function: createQuestion
+// * Purpose: Generates a new question with randomized answers.
+// * Child functions: getAvailableCharacters
 // ******************************
-
 const createQuestion = () =>
 {
-    // ******************************
-    // * Function: getAvailableCharacters
-    // *
-    // * Get available characters from either Hiragana or Katakana rows
-    // *
-    // * @availableCharacters type: map of objects
-    // * Object: { key: number, value: { character: string, column: string, romaji: string, row: string }}
-    // *
-    // ******************************
     const availableCharacters = getAvailableCharacters();
 
     let size = availableCharacters.size - 1;
@@ -233,43 +219,19 @@ const createQuestion = () =>
 }
 
 // ******************************
-// * Function: getAvailableCahracters
-// * Parent Function: createQuestion
-// * Child Functions: isHiraganaTrue, isKatakanaTrue, getKanaType
-// *
-// * Get available characters from either Hiragana or Katakana rows
-// *
-// * @availableCharacters type: map of objects
-// * Object: { key: number, value: { character: string, column: string, romaji: string, row: string }}
-// *
+// * Function: getAvailableCharacters
+// * Purpose: Retrieves a set of available kana characters based on user settings.
+// * Child functions: isHiraganaTrue, isKatakanaTrue, getKanaType
+// * @returns {Map} A map of available characters { key: number, value: {character, column, romaji, row} }
 // ******************************
 
 const getAvailableCharacters = () => 
 {
-    // ******************************
-    // *
-    // *
-    // * Checks the learnSettings store to see if characters
-    // * for Hiragana or Katakana are included.
-    // *
-    // * @hiraganaAvailable: boolean
-    // * @katakanaAvailable: boolean
-    // *
-    // ******************************
+    // Determine which kana type is available.
     const hiraganaAvailable = isHiraganaTrue();
     const katakanaAvailable = isKatakanaTrue();
 
-    // ******************************
-    // *
-    // *
-    // * Using random number generation, define whether to
-    // * use the Hiragana or Katakana chart and assigns 
-    // * the value to question state
-    // *
-    // * @kanaType: string
-    // * Values: "Hiragana" or "Katakana"
-    // *
-    // ******************************
+    // Randomly select between Hiragana or Katakana based on user settings.
     let kanaType = getKanaType(hiraganaAvailable, katakanaAvailable);
     question.kana = kanaType;
 
@@ -375,7 +337,14 @@ const isKatakanaTrue = () =>
     return boolValue;
 }
 
-// Basic if-else logic to decide whether hiragana and katakana are available
+// ******************************
+// * Function: getKanaType
+// * Purpose: Determines whether to use the Hiragana or Katakana chart 
+// *          based on user settings and assigns the value to the question state.
+// * @param {boolean} hiraganaAvailable - Whether Hiragana is available.
+// * @param {boolean} katakanaAvailable - Whether Katakana is available.
+// * @returns {string} - "Hiragana", "Katakana", or "No Type chosen"
+// ******************************
 const getKanaType = (hiraganaAvailable, katakanaAvailable) => 
 {
     let kanaType;
