@@ -1,7 +1,7 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Dto.EntryProgressRequestDTO;
 
+import com.example.demo.Dto.EntryProgressRequestDTO;
 import com.example.demo.Entity.EntryProgress;
 import com.example.demo.Entity.User;
 import com.example.demo.Service.AccountService;
