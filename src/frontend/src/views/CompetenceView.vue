@@ -1,6 +1,10 @@
 <template>
     <div id="competencePageContainer">
-        <div id="kanaPickerContainer">
+        <div id="noSessionOverlay" v-if="!account.status">
+            <p id="noSessionText"> Login to use the competence page </p>
+        </div>
+
+        <div id="kanaPickerContainer" v-if="!state.loading">
             <div id="kanaPicker">
                 <span 
                     class="topButton" 
@@ -18,7 +22,9 @@
             </div>
         </div>
 
-        <h1 v-if="state.loading"> LOADING </h1>
+        <div class="loaderContainer" v-if="state.loading">
+            <AnimatedLoader />
+        </div>
         <div v-for="item in chart.current.rows" v-else>
             <!-- Gets row -->
             <DisplayKanaBar 
@@ -45,6 +51,7 @@ import HiraganaChart from "@/components/Charts/HiraganaChart.json"
 import KatakanaChart from "@/components/Charts/KatakanaChart.json"
 import { reactive, onMounted } from 'vue';
 import { useAccountStore } from '@/stores/account';
+import AnimatedLoader from '@/components/Visual/AnimatedLoader.vue';
 
 
 const account = useAccountStore();
@@ -94,7 +101,8 @@ const chart = reactive({
 });
 
 const state = reactive({
-    loading: true
+    loading: true,
+    account: account.session
 })
 
 const changeChart = (newType) => {
@@ -136,11 +144,6 @@ const getEntries = async () =>
     }
 
     state.loading = false
-
-    // for (const [key, value] of Object.entries(score))
-    // {
-    //     console.log(key + ": " + value);
-    // }
 }
 
 
@@ -211,4 +214,37 @@ onMounted(() => {
     background-color: rgb(48, 151, 137);
     cursor: pointer;
 }
+
+.loaderContainer 
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+
+#noSessionOverlay 
+{
+    z-index: 9999;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.897), rgba(255, 255, 255, 1)); 
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#noSessionText {
+    margin-top: 3em;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); 
+    letter-spacing: 1px;
+    margin-right: 6em;
+}
+
+
 </style>
