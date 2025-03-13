@@ -102,6 +102,15 @@ const listenForSubmit = (answer) =>
     }
 }
 
+// ******************************
+// *
+// *
+// Submit bundle of entries after set of questions is finished
+// *
+// * @data: object{ entries: array of objects, uuid: string}
+// * entries: [{ romaji: string, response: boolean, type: string, row: string }]
+// *
+// ******************************
 const submitEntries = async (answerArray) =>
 {
     if (account.status)
@@ -146,42 +155,91 @@ const question = reactive({
 
 const createQuestion = () =>
 {
+    // ******************************
+    // *
+    // *
+    // Get available characters from either Hiragana or Katakana rows
+    // *
+    // * @availableCharacters type: map of objects
+    // * Object: { key: number, value: { character: string, column: string, romaji: string, row: string }}
+    // *
+    // ******************************
     const availableCharacters = getAvailableCharacters();
+
     let size = availableCharacters.size - 1;
 
-    // generate possible answers
+    // ******************************
+    // *
+    // *
+    // Choose possible answers to multiple choise question using random number generation
+    // *
+    // * @answers: set
+    // * Set: {0: number, 1: number, 2: number, 3: number}
+    // *
+    // ******************************
     let answers = new Set();
     while (answers.size < 4) {
         let chooser = Math.floor(Math.random() * size) + 1;
         answers.add(chooser);
     }
-    answers = [...answers]; // Convert Set to Array
-
+    // Change set into an array
+    answers = [...answers];
+    
+    // Pick the correct answer from available answers
     let rightAnswer = Math.floor(Math.random() * 4) + 0;
 
+    // Input data into state to transfer into the multipleChoiceCard
     question.answer1 = availableCharacters.get(answers[0]).character;
     question.answer2 = availableCharacters.get(answers[1]).character;
     question.answer3 = availableCharacters.get(answers[2]).character;
     question.answer4 = availableCharacters.get(answers[3]).character;
-    console.log("****HERE NOW ****" , availableCharacters.get(answers[3]));
     question.row = availableCharacters.get(answers[rightAnswer]).row;
     question.correctLine = rightAnswer;
     question.romaji = availableCharacters.get(answers[rightAnswer]).romaji;
     
-
+    // Reset display
     question.displayQuestion = false;
     question.displayQuestion = true;
 }
 
 const getAvailableCharacters = () => 
 {
+    // ******************************
+    // *
+    // *
+    // Checks the learnSettings store to see if characters
+    // for Hiragana or Katakana are included.
+    // *
+    // * @hiraganaAvailable: boolean
+    // * @katakanaAvailable: boolean
+    // *
+    // ******************************
     const hiraganaAvailable = isHiraganaTrue();
-
     const katakanaAvailable = isKatakanaTrue();
 
+    // ******************************
+    // *
+    // *
+    // Using random number generation, define whether to
+    // use the Hiragana or Katakana chart and assigns 
+    // the value to question state
+    // *
+    // * @kanaType: string
+    // * Values: "Hiragana" or "Katakana"
+    // *
+    // ******************************
     let kanaType = getKanaType(hiraganaAvailable, katakanaAvailable);
     question.kana = kanaType;
 
+    // ******************************
+    // *
+    // *
+    // Depending on kanaType, will create a hashmap of available characters
+    // *
+    // * @returnType: Map of Objects
+    // * Object: { key: number, value: { character: string, column: string, romaji: string, row: string }}
+    // *
+    // ******************************
     if (kanaType == "Hiragana")
     {
         const hiraganaRows = new Map();
@@ -194,12 +252,8 @@ const getAvailableCharacters = () =>
             {
                 for (let n = 0; n < HiraganaChart.rows[i].characters.length; n++)
                 {
-
-                    console.log("Romaji: ", HiraganaChart.rows[i].characters[n].romaji);
-                    console.log("Row: ", HiraganaChart.rows[i].row);
                     hiraganaRows.set(
                         positionNumber,
-                        // {character, romaji} - object
                         {
                             row:  HiraganaChart.rows[i].row,
                             character: HiraganaChart.rows[i].characters[n].character,
@@ -229,7 +283,6 @@ const getAvailableCharacters = () =>
                 {
                     katakanaRows.set(
                         positionNumber,
-                        // {character, romaji} - object
                         {
                             row: KatakanaChart.rows[i].row,
                             character: KatakanaChart.rows[i].characters[n].character,
@@ -242,15 +295,15 @@ const getAvailableCharacters = () =>
                 }
             }
         }
-
         return katakanaRows;
     }
     else
     {
-        console.log("error");
+        console.log("Error: No kana rows returned - Function: getAvailableCharacters()");
     }
 }
 
+// Check if any of the available rows match for Hiragana in learnSettings
 const isHiraganaTrue = () => 
 {
     let boolValue = false;
@@ -265,6 +318,7 @@ const isHiraganaTrue = () =>
     return boolValue;
 }
 
+// Check if any of the available rows match for katakana in learnSettings
 const isKatakanaTrue = () =>
 {
     let boolValue = false;
@@ -279,6 +333,7 @@ const isKatakanaTrue = () =>
     return boolValue;
 }
 
+// Basic if-else logic to decide whether hiragana and katakana are available
 const getKanaType = (hiraganaAvailable, katakanaAvailable) => 
 {
     let kanaType;
@@ -343,6 +398,7 @@ const goToInfo = () =>
     router.push("/");
 }
 
+// Restarts set of questions
 const restart = () => 
 {
     count.amount = 1;
