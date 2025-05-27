@@ -1,4 +1,38 @@
-## Getting Started
+# Japanese Character Learning Platform
+
+An interactive full-stack app to help users learn and test their knowledge of **Hiragana** and **Katakana** characters.  
+Users can select specific character rows to study, complete multiple choice quizzes, and track their progress over time.
+
+---
+
+## 🚀 Features
+
+- 🎯 Choose specific character sets (rows) to study
+- 📝 Multiple-choice quizzes for testing recognition
+- 📊 Tracks user accuracy and improvement
+- 🔐 User authentication & personalized tracking
+
+---
+
+## 🧠 Tech Stack
+
+### 🖥 Frontend
+- **Vue 3** – SPA framework
+- **Pinia** – State management
+- **Vuetify** – UI components
+- **Sass** – Styling
+- **vue3-lottie** – Animations
+
+### 🔧 Backend
+- **Spring Boot** – Java backend framework
+- **Spring Web** – REST API support
+
+### 🛢️ Auth & DB
+- **Supabase** – Hosted PostgreSQL DB + user auth
+
+---
+
+## 🛠️ Getting Started
 
 1. Clone the project:
 
@@ -37,28 +71,3 @@ npm install
 ```bash
 npm run dev
 ```
-
-## Project
-
-Introduction: 
-This is a prototype for a japanese learning application. Currently tests users on Hiragana and Katakana characters. Allows for the user to choose which rows to test themsevles on and track competence.
-
-Technologies:
-
-Frontend: 
-
-1. Vue - SPA framework
-2. Pinia - State management
-3. Vuetify - Component library (only for styling bars)
-4. vue3-lottie && Sass - for running animations
-
-Backend:
-
-1. SpringBoot - Backend Java Framework
-2. Spring Web
-
-Database and Authentication:
-
-1. Supabase DB
-2. Supabase Auth
-
