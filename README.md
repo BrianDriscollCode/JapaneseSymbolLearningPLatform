@@ -20,7 +20,6 @@ Users can select specific character rows to study, complete multiple choice quiz
 - **Vue 3** – SPA framework
 - **Pinia** – State management
 - **Vuetify** – UI components
-- **Sass** – Styling
 - **vue3-lottie** – Animations
 
 ### 🔧 Backend
